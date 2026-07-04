@@ -1,12 +1,14 @@
 // tab machanizm///////////////////////////////////////////////////////////////////////////
 
-document.addEventListener('DOMContentLoaded', ()=>{
-   // Save Node.js require before Monaco overwrites it
-   const nodeRequire = window.nodeRequire || require;
-   const fs = nodeRequire('fs');
-   const path = nodeRequire('path');
+const nodeRequire = window.nodeRequire || window.require || require;
+window.nodeRequire = nodeRequire;
+const path = nodeRequire('path');
+const { pathToFileURL } = nodeRequire('url');
+const snippetsDir = path.resolve(process.cwd(), 'snippets');
 
-   const files = fs.readdirSync('./snippets');
+document.addEventListener('DOMContentLoaded', ()=>{
+   const fs = nodeRequire('fs');
+   const files = fs.readdirSync(snippetsDir);
 
     //gets snippets form folder
     const snippets =files.map(filename=>{
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             const snippetId = parseInt(tab.dataset.id);
             const snippet = snippets.find(s => s.id === snippetId);
             const fileName = `${snippet.name}-${snippet.id}.${snippet.language}`;
-            const filePath = `./snippets/${fileName}`;
+            const filePath = path.join(snippetsDir, fileName);
             const fileContent = fs.readFileSync(filePath, 'utf8');
 
             //paste snippet name & language on the code top panel
@@ -143,10 +145,7 @@ options.forEach(option =>{
 });
 
 function saveSnippet(){
-    // Save Node.js require before Monaco overwrites it
-    const nodeRequire = window.nodeRequire || require;
     const fs = nodeRequire('fs');
-    const path = nodeRequire('path');
 
     //get the name, language, and code from the code panel
     const SnippetNameInput=document.getElementById("SnippetNameInput");
@@ -183,9 +182,9 @@ function saveSnippet(){
         fileName += ".txt";
     }
 
-    const folderPath = "./snippets";
+    const folderPath = snippetsDir;
 
-    const filePath =path.join(folderPath, fileName);
+    const filePath = path.join(folderPath, fileName);
     fs.writeFileSync(filePath, snippetCode, "utf8");
     
     defaultsnippetmode();
@@ -290,10 +289,7 @@ function deleteSnippet(){
         return;
     }else{
 
-        // Get Node.js modules for file operations
-        const nodeRequire = window.nodeRequire || require;
         const fs = nodeRequire('fs');
-        const path = nodeRequire('path');
         
         // Get the active tab and snippet info
         const snippetId = parseInt(tabActive.dataset.id);
@@ -341,9 +337,16 @@ function deleteSnippet(){
 
 //Code editor panel ////////////////////////////////////////////////////
 
+const monacoBasePath = path.resolve(__dirname, '..', '..', 'node_modules', 'monaco-editor', 'min', 'vs');
+const monacoBaseUrl = `${pathToFileURL(monacoBasePath).href}/`;
+
+window.MonacoEnvironment = {
+    baseUrl: monacoBaseUrl
+};
+
 require.config({
     paths: {
-        vs: 'node_modules/monaco-editor/min/vs'
+        vs: monacoBaseUrl
     }
 });
 

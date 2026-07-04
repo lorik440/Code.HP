@@ -1,4 +1,5 @@
 // window operations
+const path = require('path');
 const electron = require('electron');
 // Only use electron-reload in development
 if (process.env.NODE_ENV !== 'production') {
@@ -19,7 +20,7 @@ function createWindow(){
         height: 400,
         minWidth: 480,
         minHeight: 380,
-        icon: `${__dirname}/icon.ico`,
+        icon: path.join(__dirname, '..', 'assets', 'icon.ico'),
         alwaysOnTop: true,
         autoHideMenuBar: true,
         resizable: true,
@@ -31,7 +32,7 @@ function createWindow(){
         }
     });
 
-    win.loadFile('index.html');
+    win.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'));
         
 }
 

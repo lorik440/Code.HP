@@ -3,7 +3,7 @@
     "productName": "Code.HP",
     "version": "1.0.0",
     "description": "Code snippet manager with retro-futuristic alien UI",
-    "main": "electron-main.js",
+    "main": "app/main/electron-main.js",
     "author": "lorik",
     "license": "MIT",
     "scripts": {
