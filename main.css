@@ -1,0 +1,351 @@
+/*the main colors of the app*/ 
+:root{
+    --bg-body: rgb(8, 9, 11);
+    --bg-container: rgb(18, 23, 21);
+
+    --text-primary: rgb(210, 214, 212);
+    --text-secondery: rgb(150, 155, 152);
+
+    --border-color: rgb(72, 78, 82);
+
+    --hover--color: rgb(28, 32, 36);
+
+    --editor-bg: rgb(12, 14, 16);
+
+    --alert-danger-color: rgb(92, 38, 38);
+    --alert-confirm-color: rgb(36, 74, 52);
+
+    --message-info-bg: rgb(30, 42, 58);
+}
+
+body{
+    height: 100%;
+    margin: 0;
+    background-color:var(--bg-body);
+    font-family: 'VT323', monospace;
+
+}
+html{
+    height: 100%;
+}
+pre, textarea{
+    font-family: 'VT323', monospace;
+}
+
+button{
+    background-color: var(--bg-container);
+    padding: 0;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: white !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+}
+button:hover{
+    background-color: var(--hover--color);
+}
+button:active{
+    background-color: var(--editor-bg);
+    box-shadow: inset 0 0 0 1px var(--border-color);
+}
+button:focus{
+    outline: none;
+    border-color: var(--accent-blue, var(--border-color));
+}
+
+input{
+    background-color: var(--editor-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    padding: 3px 6px;
+    height: 14px;
+    color: var(--text-primary);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    font-family: 'VT323', monospace;
+    outline: none;
+}
+input::placeholder{
+    color: var(--text-secondery);
+    opacity: 0.7;
+}
+
+hr{
+    margin: 0;
+} 
+
+.clickStop{
+    pointer-events: none;
+    cursor: none;
+}
+
+.blur{
+   filter: blur(2px);
+   pointer-events: none;
+}
+
+
+.message{
+    position:absolute;
+    z-index: 1000;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: var(--alert-danger-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 5px;
+    padding: 8px;
+    cursor: pointer;
+
+}
+.message:hover{
+    border: 2px solid var(--alert-confirm-color);
+}
+
+
+/*window grid*/ 
+.parent {
+    display: grid;
+    height: 100vh;
+    gap: 5px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+    
+.sidebar {
+    grid-column: span 2 / span 2;
+    grid-row: span 5/ span 5;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+.mainPanel {
+    grid-column: span 3 / span 7;
+    grid-row: span 5 / span 5;
+    grid-column-start: 3;
+}
+
+.addSnippetContainer{
+    position: absolute;
+    height: max-content;
+    width: max-content;
+    bottom: 15px;
+    display: flex;
+    align-self: center;
+    background-color: var(--alert-confirm-color);
+}
+.addSnippetContainer:hover .addSnippetComment{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.addSnippetBTN{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    width: 125px;
+    font-size: x-large;
+    color: var(--editor-bg);  
+}
+.addSnippetComment{
+    position: absolute;
+    bottom: 30px;
+    background-color: var(--alert-confirm-color);
+    border-radius: 2px;
+    padding: 1px;
+    font-size: 12px;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0s linea 1.5s; 
+}
+
+
+/*styleing of the elements*/
+.sidebar, .mainPanel{
+    background-color:var(--bg-container);
+    padding: 3px;
+    color: var(--text-primary);
+    border: 1px solid;
+    border-color: var(--border-color);
+}
+.sidebar{
+    border-top-right-radius:5px;
+    border-bottom-right-radius:5px;
+}
+.mainPanel{
+    padding: 0;
+    background-color: var(--editor-bg);
+    border-top-left-radius: 2px;
+    border-bottom-left-radius:2px ;
+}
+.topSidebar{
+    height: 25px;
+    width: 100%;
+    text-align: center;
+    border-bottom:1px solid;
+    border-color: var(--border-color);
+}
+.topMainPanel, .addSnippetPanel{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: center;
+    align-items: center;
+    margin: 0;
+    min-height: 30px;
+    background-color: var(--bg-container);
+    border-bottom:1px solid ;
+    border-color: var(--border-color);
+}
+/*toggel between add snippet panel and default panel */
+
+.hidden{
+    display: none;
+}
+
+.TMP{
+    display: flex;
+    gap: 5%;
+    width: 50%; 
+    font-size: small;
+}
+
+#language_TMP{
+    opacity: 0.5;
+}
+
+
+/* add snippet mode rop panel */
+
+.addSnippetPanel{
+    justify-content: start;
+    gap: 5px;
+}
+.functions{
+    justify-content: end;
+}
+
+
+.addSnippetName{
+    width:130px ;
+    font-size: small;
+}
+
+.addSnippetLanguage{
+    font-size: small;
+    width:100px ;
+}
+
+.dropdown .options{
+    display: none;
+    height: 100px;
+    overflow: auto;
+    font-size: small;
+    position: absolute;
+    background: #222;
+    color: #eee;
+}
+.dropdown:focus-within .options{
+    display: block;
+    z-index: 2;
+
+}
+.option:hover{
+    color: rgb(14, 116, 29);
+    cursor: pointer;
+}
+
+.editorPanel{
+    height: calc(100% - 30px);
+    width:100%;
+}
+
+/*tabs in sidebar*/
+.tabSpace{
+    display: flex;
+    flex-direction:column;
+    position: relative;
+    gap: 5px;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 50px;
+}
+.tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: var(--bg-container);
+    border-radius: 2px;
+    cursor: pointer;
+    font-size:14px;
+}
+.tab:hover{
+    background-color: var(--hover--color);
+}
+.tab.active{
+    background-color: var(--hover--color);
+    border-left: 1px solid var(--text-secondery);
+}
+
+.snippetEditWindow{
+ position: absolute;
+ text-align: center;
+ width: 40px;
+ height: 30px;
+ left: 100px;
+ background-color: var(--editor-bg);
+ z-index: 3;
+
+}
+.snippetName {
+    flex: 1;
+    text-align: left;
+}
+
+.snippetLanguage {
+    margin-left: 15px;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+/*custom scrollbar to match dark theme*/
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-body);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondery);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--bg-body);
+}

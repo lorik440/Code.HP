@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code.HP</title>
+    <link rel="stylesheet" href="fonts/vt323.css">
+    <link rel="stylesheet" href="main.css">
+
+</head>
+<body> 
+<!--message for alerts-->
+<div class="message hidden"></div>
+
+<div class="parent">
+
+    <div id="sidebar" class="sidebar">
+        <div class="topSidebar">
+            Saved Snippets
+        </div>
+        <input id="SearchSnippet" type="text" placeholder="Search snippets">
+       
+        <div id="tabSpace" class="tabSpace">
+
+        </div>
+        <div class="addSnippetContainer">
+            <button id="addSnippet" onclick="addSippetMode()" class="addSnippetBTN ">+</button>
+            <div class="addSnippetComment" > add snippet </div>
+        </div>
+    </div>
+
+    <div class="mainPanel">
+
+        <!--default top panel -->
+        <div class="topMainPanel">
+            <div class="TMP snippetInfo">
+                <div id="snippetName_TMP"></div>
+                <div id="language_TMP"></div>
+            </div>
+            <div class="TMP functions">
+                <button onclick="showAlert('Continue to delete snippet: right click to cancel', deleteSnippet )">delete</button>
+                <button onclick="copyCode()">copy</button>
+                <button onclick="zoomOut()" class="zoom-btn">-</button>
+                <button onclick="zoomIn()" class="zoom-btn">+</button>
+            </div>
+        </div>
+
+        <!--add snippet mode panel --> 
+        <div class="addSnippetPanel hidden">
+            <div class="message hidden"></div>
+            <input type="text" id="SnippetNameInput" class="addSnippetName" placeholder="snippet name" required>  
+            <div class="dropdown"> 
+                <input type="text" id="LanguageInput" data-value="" class="addSnippetLanguage" placeholder="language" readonly required>
+                <div  class="options">
+                    <div class="option" data-value="js">JavaScript</div>
+                    <div class="option" data-value="jsx">React JSX</div>
+                    <div class="option" data-value="ts">TypeScript</div>
+                    <div class="option" data-value="tsx">TypeScript React</div>
+                    <div class="option" data-value="html">HTML</div>
+                    <div class="option" data-value="css">CSS</div>
+                    <div class="option" data-value="scss">SCSS</div>
+                    <div class="option" data-value="less">Less</div>
+                    <div class="option" data-value="json">JSON</div>
+                    <div class="option" data-value="xml">XML</div>
+                    <div class="option" data-value="yaml">YAML</div>
+                    <div class="option" data-value="yml">YML</div>
+                    <div class="option" data-value="py">Python</div>
+                    <div class="option" data-value="java">Java</div>
+                    <div class="option" data-value="c">C</div>
+                    <div class="option" data-value="cpp">C++</div>
+                    <div class="option" data-value="cs">C#</div>
+                    <div class="option" data-value="php">PHP</div>
+                    <div class="option" data-value="rb">Ruby</div>
+                    <div class="option" data-value="go">Go</div>
+                    <div class="option" data-value="sql">SQL</div>
+                    <div class="option" data-value="sh">Shell</div>
+                    <div class="option" data-value="ps1">PowerShell</div>
+                    <div class="option" data-value="bat">Batch</div>
+                    <div class="option" data-value="md">Markdown</div>
+                    <div class="option" data-value="dockerfile">Dockerfile</div>
+                    <div class="option" data-value="ini">INI</div>
+                </div>
+            </div>
+            <button onclick="saveSnippet()">save</button>
+        </div>
+
+        <div id="editorPanel" class="editorPanel" >
+
+        </div>
+                        
+    </div>
+</div>
+
+<script src="node_modules/monaco-editor/min/vs/loader.js"></script>
+<script src="language-definitions.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>
