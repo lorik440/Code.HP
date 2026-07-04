@@ -19,6 +19,7 @@ function createWindow(){
         height: 400,
         minWidth: 480,
         minHeight: 380,
+        icon: `${__dirname}/icon.ico`,
         alwaysOnTop: true,
         autoHideMenuBar: true,
         resizable: true,
@@ -36,10 +37,23 @@ function createWindow(){
 
 app.whenReady().then(() => {
     createWindow();
-    
-    globalShortcut.register('Ctrl+y', () => {
-        win.isVisible() ? win.hide() : win.show();
+
+    const registered = globalShortcut.register('Ctrl+S', () => {
+        if (!win || win.isDestroyed()) {
+            return;
+        }
+
+        if (win.isVisible()) {
+            win.hide();
+        } else {
+            win.show();
+            win.focus();
+        }
     });
+
+    if (!registered) {
+        console.warn('Global shortcut registration failed.');
+    }
 });
 
 app.on('will-quit', () => {

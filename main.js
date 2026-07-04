@@ -366,6 +366,11 @@ require(['vs/editor/editor.main'], function () {
             lineDecorationsWidth: 10,
             fontSize: 14,
             fontFamily: 'VT323, monospace',
+            fontLigatures: false,
+            lineHeight: 18,
+            letterSpacing: 0,
+            renderLineHighlightOnlyWhenFocus: true,
+            scrollBeyondLastLine: false,
             minimap: { enabled: false },
             contextmenu: true
         }

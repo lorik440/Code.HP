@@ -8,14 +8,14 @@
     "license": "MIT",
     "scripts": {
         "start": "electron .",
-        "build": "electron-builder",
-        "build-win": "electron-builder --win",
-        "build-mac": "electron-builder --mac",
-        "build-linux": "electron-builder --linux",
-        "build-all": "electron-builder --win --mac --linux",
+        "dev": "electron .",
+        "build": "electron-builder --dir",
+        "build-win": "electron-builder --win --dir",
+        "build-mac": "electron-builder --mac --dir",
+        "build-linux": "electron-builder --linux --dir",
+        "build-all": "electron-builder --win --mac --linux --dir",
         "dist": "npm run build"
     },
-    
     "build": {
         "appId": "com.lorik.code-hp",
         "productName": "Code.HP",
@@ -34,6 +34,7 @@
             }
         ],
         "win": {
+            "signExecutable": false,
             "target": [
                 {
                     "target": "nsis",
@@ -50,7 +51,7 @@
                     ]
                 }
             ],
-            "icon": "assets/icon.ico"
+            "icon": "icon.ico"
         },
         "mac": {
             "target": [
@@ -89,11 +90,11 @@
         }
     },
     "devDependencies": {
-        "electron": "^30.0.0",
-        "electron-builder": "^24.13.3",
+        "electron": "^43.0.0",
+        "electron-builder": "^26.15.3",
         "electron-reload": "^2.0.0-alpha.1"
     },
     "dependencies": {
-        "monaco-editor": "^0.55.1"
+        "monaco-editor": "^0.53.0"
     }
 }
