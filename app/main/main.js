@@ -417,36 +417,68 @@ require(['vs/editor/editor.main'], function () {
 
 //language library for monaco editor 
 function getMonacoLanguage(extension) {
+
     const languageMap = {
-        'js': 'javascript',
-        'jsx': 'javascript',
-        'ts': 'typescript',
-        'tsx': 'typescript',
-        'html': 'html',
-        'css': 'css',
-        'scss': 'scss',
-        'less': 'less',
-        'json': 'json',
-        'xml': 'xml',
-        'yaml': 'yaml',
-        'yml': 'yaml',
-        'py': 'python',
-        'java': 'java',
-        'c': 'c',
-        'cpp': 'cpp',
-        'cs': 'csharp',
-        'php': 'php',
-        'rb': 'ruby',
-        'go': 'go',
-        'sql': 'sql',
-        'sh': 'shell',
-        'ps1': 'powershell',
-        'bat': 'bat',
-        'md': 'markdown',
-        'dockerfile': 'dockerfile',
-        'ini': 'ini'
+
+        js: "javascript",
+        jsx: "javascript",
+        ts: "typescript",
+        tsx: "typescript",
+
+        html: "html",
+        css: "css",
+        scss: "scss",
+        sass: "scss",
+        less: "less",
+
+        json: "json",
+        jsonc: "json",
+        xml: "xml",
+        yaml: "yaml",
+        yml: "yaml",
+
+        py: "python",
+        java: "java",
+        c: "c",
+        h: "c",
+        cpp: "cpp",
+        hpp: "cpp",
+        cs: "csharp",
+
+        php: "php",
+        rb: "ruby",
+        go: "go",
+        rs: "rust",
+        swift: "swift",
+        kt: "kotlin",
+        dart: "dart",
+        scala: "scala",
+        fs: "fsharp",
+
+        sql: "sql",
+
+        sh: "shell",
+        bash: "shell",
+        ps1: "powershell",
+        bat: "bat",
+        cmd: "bat",
+
+        md: "markdown",
+        txt: "plaintext",
+
+        dockerfile: "dockerfile",
+        ini: "ini",
+        toml: "ini",
+
+        graphql: "graphql",
+        gql: "graphql",
+
+        lua: "lua",
+        r: "r",
+        perl: "perl"
     };
-    return languageMap[extension] || extension;
+
+    return languageMap[extension.toLowerCase()] || "plaintext";
 }
 
 // Monaco editor zoom functions
