@@ -29,7 +29,7 @@
         ],
         "extraResources": [
             {
-                "from": "fonts",
+                "from": "app/assets/fonts",
                 "to": "fonts"
             }
         ],
@@ -51,7 +51,7 @@
                     ]
                 }
             ],
-            "icon": "icon.ico"
+            "icon": "app/assets/icon.ico"
         },
         "mac": {
             "target": [
@@ -63,7 +63,7 @@
                     ]
                 }
             ],
-            "icon": "assets/icon.icns"
+            "icon": "app/assets/icon.icns"
         },
         "linux": {
             "target": [
@@ -80,7 +80,7 @@
                     ]
                 }
             ],
-            "icon": "assets/icon.png"
+            "icon": "app/assets/icon.png"
         },
         "nsis": {
             "oneClick": false,
