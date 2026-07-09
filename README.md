@@ -2,8 +2,9 @@
 
 A retro-futuristic alien-themed code snippet manager built with Electron.
 
-## 🚀 Quick Start
-Double-click the desktop shortcut "Code.HP" to launch the app.
+## 🚀 launch app
+Run Code.HP Setup 1.0.0.exe
+Double-click the desktop shortcut "Code.HP" to open the app.
 
 ## ✨ Features
 - Retro-futuristic alien UI with VT323 font
