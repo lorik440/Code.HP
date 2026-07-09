@@ -1,7 +1,7 @@
 /*the main colors of the app*/ 
 :root{
     --bg-body: rgb(8, 9, 11);
-    --bg-container: rgb(18, 23, 21);
+    --bg-container: #121715;
 
     --text-primary: rgb(210, 214, 212);
     --text-secondery: rgb(150, 155, 152);
@@ -28,7 +28,7 @@ body{
 html{
     height: 100%;
 }
-pre, textarea{
+pre {
     font-family: 'VT323', monospace;
 }
 
@@ -276,6 +276,7 @@ hr{
 .editorPanel{
     height: calc(100% - 30px);
     width:100%;
+    background-color: #0A120A;
 }
 
 /*tabs in sidebar*/
