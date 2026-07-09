@@ -4,9 +4,16 @@ const nodeRequire = window.nodeRequire || window.require || require;
 window.nodeRequire = nodeRequire;
 const path = nodeRequire('path');
 const { pathToFileURL } = nodeRequire('url');
-const snippetsDir = global.snippetsDir || path.resolve(process.cwd(), 'snippets');
+const { ipcRenderer } = nodeRequire('electron');
 
-document.addEventListener('DOMContentLoaded', ()=>{
+let snippetsDir;
+
+async function initSnippetsDir() {
+    snippetsDir = await ipcRenderer.invoke('get-snippets-dir');
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await initSnippetsDir();
    const fs = nodeRequire('fs');
    const files = fs.readdirSync(snippetsDir);
 

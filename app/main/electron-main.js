@@ -10,14 +10,9 @@ if (process.env.NODE_ENV !== 'production') {
     }
 }
 
-const {app, BrowserWindow, globalShortcut} = require('electron');
-
-global.snippetsDir = path.join(app.getPath('userData'), 'snippets');
+const {app, BrowserWindow, globalShortcut, ipcMain} = require('electron');
 
 const fs = require('fs');
-if (!fs.existsSync(global.snippetsDir)) {
-    fs.mkdirSync(global.snippetsDir, { recursive: true });
-}
 
 let win;
 
@@ -44,6 +39,14 @@ function createWindow(){
 }
 
 app.whenReady().then(() => {
+
+    global.snippetsDir = path.join(app.getPath('userData'), 'snippets');
+    if (!fs.existsSync(global.snippetsDir)) {
+        fs.mkdirSync(global.snippetsDir, { recursive: true });
+    }
+
+    ipcMain.handle('get-snippets-dir', () => global.snippetsDir);
+
     createWindow();
 
     const registered = globalShortcut.register('Ctrl+S', () => {
