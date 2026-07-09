@@ -2,7 +2,7 @@ name : Build and release
 on:
     push:
         tags:
-            - 'v*.*.*'
+            - 'v*'
 
 permissions:
     contents: write
@@ -25,13 +25,8 @@ jobs:
 
             - name: Build and publish
               run: npx electron-builder --publish always
-
-            - name: Test
-              run: dotnet test --no-build --verbosity normal
-
-            - name: Publish
-              run: dotnet publish --configuration Release --no-build --output ./publish
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              env: 
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            
 
             
