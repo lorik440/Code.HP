@@ -8,7 +8,7 @@
     "license": "MIT",
     "scripts": {
         "start": "electron .",
-        "dev": "electron .",
+        "dev": "electronmon .",
         "build": "electron-builder",
         "build-win": "electron-builder --win",
         "build-mac": "electron-builder --mac",
@@ -92,7 +92,7 @@
     "devDependencies": {
         "electron": "^43.0.0",
         "electron-builder": "^26.15.3",
-        "electron-reload": "^2.0.0-alpha.1"
+        "electronmon": "^2.0.4"
     },
     "dependencies": {
         "monaco-editor": "^0.53.0"

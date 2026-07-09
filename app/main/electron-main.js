@@ -1,17 +1,7 @@
 // window operations
 const path = require('path');
 const electron = require('electron');
-// Only use electron-reload in development
-if (process.env.NODE_ENV !== 'production') {
-    try {
-        require('electron-reload')(__dirname);
-    } catch (e) {
-        // electron-reload not available in production
-    }
-}
-
 const {app, BrowserWindow, globalShortcut, ipcMain} = require('electron');
-
 const fs = require('fs');
 
 let win;
@@ -29,8 +19,8 @@ function createWindow(){
         webPreferences:{
             nodeIntegration:true,
             contextIsolation:false,
-            webSecurity: false,  
-            allowRunningInsecureContent: true
+            webSecurity: true,  
+            allowRunningInsecureContent: false,
         }
     });
 
