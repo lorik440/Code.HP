@@ -34,6 +34,7 @@ function createSplash() {
 }
 
 
+
 function createWindow() {
 
     win = new BrowserWindow({
@@ -61,8 +62,6 @@ function createWindow() {
 
     ipcMain.once("editor-ready", () => {
 
-        if (!updateFinished) return;
-
         if (splash && !splash.isDestroyed()) {
             splash.close();
         }
@@ -75,6 +74,7 @@ function createWindow() {
 }
 
 
+
 function sendUpdateStatus(message) {
 
     if (splash && !splash.isDestroyed()) {
@@ -83,6 +83,9 @@ function sendUpdateStatus(message) {
 
 }
 
+
+
+// updater events
 
 autoUpdater.on("checking-for-update", () => {
     sendUpdateStatus("Checking for updates...");
@@ -126,63 +129,112 @@ autoUpdater.on("error", () => {
 });
 
 
+
 app.whenReady().then(() => {
 
 
-    global.snippetsDir = path.join(app.getPath("userData"), "snippets");
+    global.snippetsDir = path.join(
+        app.getPath("userData"),
+        "snippets"
+    );
 
 
     if (!fs.existsSync(global.snippetsDir)) {
-        fs.mkdirSync(global.snippetsDir, { recursive: true });
+
+        fs.mkdirSync(
+            global.snippetsDir,
+            {
+                recursive: true
+            }
+        );
+
     }
 
 
-    ipcMain.handle("get-snippets-dir", () => global.snippetsDir);
+    ipcMain.handle(
+        "get-snippets-dir",
+        () => global.snippetsDir
+    );
 
 
     createSplash();
     createWindow();
 
+
+
     if (app.isPackaged) {
+
         autoUpdater.checkForUpdates();
-    }else{
+
+    } else {
+
         updateFinished = true;
-        sendUpdateStatus("dev mode, starting Code.HP...");
+        sendUpdateStatus("Development mode...");
+
     }
 
-    autoUpdater.checkForUpdates();
 
 
-    const registered = globalShortcut.register("Ctrl+Alt+Space", () => {
+    // fallback if updater gets stuck
 
+    setTimeout(() => {
 
-        if (!win || win.isDestroyed()) {
-            return;
+        if (!updateFinished) {
+
+            updateFinished = true;
+            sendUpdateStatus("Starting Code.HP...");
+
         }
 
+    }, 5000);
 
-        if (splash && !splash.isDestroyed()) {
-            return;
+
+
+    const registered = globalShortcut.register(
+        "Ctrl+Alt+Space",
+        () => {
+
+
+            if (!win || win.isDestroyed()) {
+                return;
+            }
+
+
+            if (splash && !splash.isDestroyed()) {
+                return;
+            }
+
+
+            if (win.isVisible()) {
+
+                win.hide();
+
+            } else {
+
+                win.show();
+                win.focus();
+
+            }
+
         }
-
-
-        if (win.isVisible()) {
-            win.hide();
-        } else {
-            win.show();
-            win.focus();
-        }
-
-    });
+    );
 
 
     if (!registered) {
-        console.warn("Global shortcut registration failed.");
+
+        console.warn(
+            "Global shortcut registration failed."
+        );
+
     }
+
 
 });
 
 
+
 app.on("will-quit", () => {
+
     globalShortcut.unregisterAll();
+
 });
