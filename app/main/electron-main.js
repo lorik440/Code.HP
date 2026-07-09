@@ -1,12 +1,17 @@
 // window operations
-const path = require('path');
-const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron');
-const fs = require('fs');
+const { autoUpdater } = require("electron-updater");
+const path = require("path");
+const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
+const fs = require("fs");
+
 
 let win;
 let splash;
+let updateFinished = false;
+
 
 function createSplash() {
+
     splash = new BrowserWindow({
         width: 400,
         height: 300,
@@ -28,7 +33,9 @@ function createSplash() {
     splash.loadFile(path.join(__dirname, "..", "renderer", "splash.html"));
 }
 
+
 function createWindow() {
+
     win = new BrowserWindow({
         width: 500,
         height: 400,
@@ -48,39 +55,116 @@ function createWindow() {
         }
     });
 
+
     win.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
 
-    ipcMain.once("editor-ready", ()=> {
-        if(splash && !splash.isDestroyed()){
+
+    ipcMain.once("editor-ready", () => {
+
+        if (!updateFinished) return;
+
+        if (splash && !splash.isDestroyed()) {
             splash.close();
         }
+
         win.show();
         win.focus();
-    })
+
+    });
+
 }
+
+
+function sendUpdateStatus(message) {
+
+    if (splash && !splash.isDestroyed()) {
+        splash.webContents.send("update-status", message);
+    }
+
+}
+
+
+autoUpdater.on("checking-for-update", () => {
+    sendUpdateStatus("Checking for updates...");
+});
+
+
+autoUpdater.on("update-available", (info) => {
+    sendUpdateStatus(`Downloading update ${info.version}...`);
+});
+
+
+autoUpdater.on("download-progress", (progress) => {
+    sendUpdateStatus(`Downloading... ${Math.round(progress.percent)}%`);
+});
+
+
+autoUpdater.on("update-downloaded", () => {
+
+    sendUpdateStatus("Installing update...");
+
+    setTimeout(() => {
+        autoUpdater.quitAndInstall();
+    }, 1000);
+
+});
+
+
+autoUpdater.on("update-not-available", () => {
+
+    updateFinished = true;
+    sendUpdateStatus("Starting Code.HP...");
+
+});
+
+
+autoUpdater.on("error", () => {
+
+    updateFinished = true;
+    sendUpdateStatus("Starting Code.HP...");
+
+});
+
 
 app.whenReady().then(() => {
 
+
     global.snippetsDir = path.join(app.getPath("userData"), "snippets");
+
 
     if (!fs.existsSync(global.snippetsDir)) {
         fs.mkdirSync(global.snippetsDir, { recursive: true });
     }
 
+
     ipcMain.handle("get-snippets-dir", () => global.snippetsDir);
+
 
     createSplash();
     createWindow();
 
+    if (app.isPackaged) {
+        autoUpdater.checkForUpdates();
+    }else{
+        updateFinished = true;
+        sendUpdateStatus("dev mode, starting Code.HP...");
+    }
+
+    autoUpdater.checkForUpdates();
+
+
     const registered = globalShortcut.register("Ctrl+Alt+Space", () => {
+
 
         if (!win || win.isDestroyed()) {
             return;
         }
 
+
         if (splash && !splash.isDestroyed()) {
             return;
         }
+
 
         if (win.isVisible()) {
             win.hide();
@@ -91,11 +175,13 @@ app.whenReady().then(() => {
 
     });
 
+
     if (!registered) {
         console.warn("Global shortcut registration failed.");
     }
 
 });
+
 
 app.on("will-quit", () => {
     globalShortcut.unregisterAll();
