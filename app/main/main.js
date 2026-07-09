@@ -4,7 +4,7 @@ const nodeRequire = window.nodeRequire || window.require || require;
 window.nodeRequire = nodeRequire;
 const path = nodeRequire('path');
 const { pathToFileURL } = nodeRequire('url');
-const snippetsDir = path.resolve(process.cwd(), 'snippets');
+const snippetsDir = global.snippetsDir || path.resolve(process.cwd(), 'snippets');
 
 document.addEventListener('DOMContentLoaded', ()=>{
    const fs = nodeRequire('fs');
@@ -298,7 +298,7 @@ function deleteSnippet(){
         
         // Construct the filename
         const fileName = `${snippetName}-${snippetId}.${snippetLanguage}`;
-        const filePath = path.join('./snippets', fileName);
+        const filePath = path.join(snippetsDir, fileName);
         
         try {
             // Delete the file

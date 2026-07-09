@@ -12,6 +12,13 @@ if (process.env.NODE_ENV !== 'production') {
 
 const {app, BrowserWindow, globalShortcut} = require('electron');
 
+global.snippetsDir = path.join(app.getPath('userData'), 'snippets');
+
+const fs = require('fs');
+if (!fs.existsSync(global.snippetsDir)) {
+    fs.mkdirSync(global.snippetsDir, { recursive: true });
+}
+
 let win;
 
 function createWindow(){
