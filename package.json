@@ -31,9 +31,7 @@
             "output": "dist"
         },
         "files": [
-            "**/*",
-            "!node_modules/**/*",
-            "node_modules/monaco-editor/**/*"
+           "**/*"
         ],
         "extraResources": [
             {
