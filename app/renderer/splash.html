@@ -11,8 +11,15 @@
         <img src="../assets/icon.ico" alt="Code.HP Icon" class ="logo">
     
         <h1>Code.HP</h1>
-        <p>Loading...</p>
+        <p id="update-status">Loading...</p>
         <div class="loader"></div>
     </div>
+    <script>
+        const { ipcRenderer } = require("electron");
+        const status = document.getElementById("update-status");
+        ipcRenderer.on("update-status", (event, message) => {
+            status.innerText = message;
+        });
+    </script>
 </body>
 </html>
