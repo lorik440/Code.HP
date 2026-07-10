@@ -1,5 +1,3 @@
-// tab machanizm///////////////////////////////////////////////////////////////////////////
-
 const nodeRequire = window.nodeRequire || window.require || require;
 window.nodeRequire = nodeRequire;
 const path = nodeRequire('path');
@@ -8,10 +6,20 @@ const { ipcRenderer } = nodeRequire('electron');
 
 let snippetsDir;
 
+// Initialize the snippets directory by requesting it from the main process
 async function initSnippetsDir() {
     snippetsDir = await ipcRenderer.invoke('get-snippets-dir');
 }
 
+// Load the application version and display it in the UI
+async function loadAppVersion() {
+    const version = await ipcRenderer.invoke("get-app-version");
+    document.getElementById("appVersion").textContent = version;
+}
+
+loadAppVersion();
+
+// tab machanizm///////////////////////////////////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', async () => {
     await initSnippetsDir();
    const fs = nodeRequire('fs');
@@ -561,9 +569,5 @@ function hideEditorView() {
     const editorView=document.querySelector('.editorView');
     editorView.style.display = 'none';
 }
-// function to get the current app version
-
-const package =JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
-document.getElementById("appVersion").textContent = package.version;
 
 ////////////////////////////////////////////////////////////////////////////.

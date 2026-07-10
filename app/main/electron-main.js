@@ -204,6 +204,9 @@ autoUpdater.on("error", (err) => {
 // =======================================================
 // APP START
 // =======================================================
+ipcMain.handle("get-app-version", () => {
+    return app.getVersion();
+});
 
 app.whenReady().then(() => {
 
