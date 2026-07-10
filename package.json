@@ -1,7 +1,7 @@
 {
     "name": "code-hp",
     "productName": "Code.HP",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "Code snippet manager with retro-futuristic alien UI",
     "main": "app/main/electron-main.js",
     "author": "lorik",
@@ -9,17 +9,16 @@
     "scripts": {
         "start": "electron .",
         "dev": "electronmon .",
+        "pack":"electron-builder --dir",
         "clean": "rimraf dist",
-        "build": "npm run clean && electron-builder",
-        "build-win": "electron-builder --win",
-        "build-mac": "electron-builder --mac",
-        "build-linux": "electron-builder --linux",
-        "build-all": "electron-builder --win --mac --linux",
-        "dist": "npm run build"
+        "build": "electron-builder --win",
+        "release":"npm run clean && electron-builder --win --publish always",
+        "dist": "npm run release"
     },
     "build": {
         "appId": "com.lorik.code-hp",
         "productName": "Code.HP",
+        "compression": "store",
         "publish": [
             {
                 "provider": "github",
@@ -45,49 +44,13 @@
                 {
                     "target": "nsis",
                     "arch": [
-                        "x64",
-                        "ia32"
-                    ]
-                },
-                {
-                    "target": "portable",
-                    "arch": [
-                        "x64",
-                        "ia32"
+                        "x64"
                     ]
                 }
             ],
             "icon": "app/assets/icon.ico"
         },
-        "mac": {
-            "target": [
-                {
-                    "target": "dmg",
-                    "arch": [
-                        "x64",
-                        "arm64"
-                    ]
-                }
-            ],
-            "icon": "app/assets/icon.icns"
-        },
-        "linux": {
-            "target": [
-                {
-                    "target": "AppImage",
-                    "arch": [
-                        "x64"
-                    ]
-                },
-                {
-                    "target": "deb",
-                    "arch": [
-                        "x64"
-                    ]
-                }
-            ],
-            "icon": "app/assets/icon.png"
-        },
+
         "nsis": {
             "oneClick": false,
             "allowToChangeInstallationDirectory": true,

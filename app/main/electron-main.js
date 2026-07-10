@@ -1,14 +1,39 @@
 // window operations
+const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const path = require("path");
-const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const fs = require("fs");
-
 
 let win;
 let splash;
-let updateFinished = false;
 
+let updateFinished = false;
+let editorReady = false;
+
+// =======================================================
+// SHOW MAIN WINDOW WHEN EVERYTHING IS READY
+// =======================================================
+
+function tryShowMainWindow() {
+
+    if (!updateFinished || !editorReady) {
+        return;
+    }
+
+    if (splash && !splash.isDestroyed()) {
+        splash.close();
+    }
+
+    if (win && !win.isDestroyed()) {
+        win.show();
+        win.focus();
+    }
+
+}
+
+// =======================================================
+// SPLASH
+// =======================================================
 
 function createSplash() {
 
@@ -30,10 +55,15 @@ function createSplash() {
         }
     });
 
-    splash.loadFile(path.join(__dirname, "..", "renderer", "splash.html"));
+    splash.loadFile(
+        path.join(__dirname, "..", "renderer", "splash.html")
+    );
+
 }
 
-
+// =======================================================
+// MAIN WINDOW
+// =======================================================
 
 function createWindow() {
 
@@ -52,158 +82,205 @@ function createWindow() {
             nodeIntegration: true,
             contextIsolation: false,
             webSecurity: true,
-            allowRunningInsecureContent: false,
+            allowRunningInsecureContent: false
         }
     });
 
-
-    win.loadFile(path.join(__dirname, "..", "renderer", "index.html"));
-
+    win.loadFile(
+        path.join(__dirname, "..", "renderer", "index.html")
+    );
 
     ipcMain.once("editor-ready", () => {
 
-        if (splash && !splash.isDestroyed()) {
-            splash.close();
-        }
+        console.log("Renderer is ready.");
 
-        win.show();
-        win.focus();
+        editorReady = true;
+
+        tryShowMainWindow();
 
     });
 
 }
 
-
+// =======================================================
+// SPLASH STATUS
+// =======================================================
 
 function sendUpdateStatus(message) {
 
     if (splash && !splash.isDestroyed()) {
-        splash.webContents.send("update-status", message);
+
+        splash.webContents.send(
+            "update-status",
+            message
+        );
+
     }
 
 }
 
-
-
-// updater events
+// =======================================================
+// AUTO UPDATER
+// =======================================================
 
 autoUpdater.on("checking-for-update", () => {
-    sendUpdateStatus("Checking for updates...");
-});
 
+    console.log("Checking for updates...");
+
+    sendUpdateStatus("Checking for updates...");
+
+});
 
 autoUpdater.on("update-available", (info) => {
-    sendUpdateStatus(`Downloading update ${info.version}...`);
-});
 
+    console.log("Update available:", info.version);
+
+    updateFinished = false;
+
+    sendUpdateStatus(
+        `Downloading update ${info.version}...`
+    );
+
+});
 
 autoUpdater.on("download-progress", (progress) => {
-    sendUpdateStatus(`Downloading... ${Math.round(progress.percent)}%`);
-});
 
+    console.log(
+        `Downloading ${Math.round(progress.percent)}%`
+    );
+
+    sendUpdateStatus(
+        `Downloading... ${Math.round(progress.percent)}%`
+    );
+
+});
 
 autoUpdater.on("update-downloaded", () => {
 
-    sendUpdateStatus("Installing update...");
+    console.log("Update downloaded");
+
+    sendUpdateStatus(
+        "Installing update..."
+    );
 
     setTimeout(() => {
+
         autoUpdater.quitAndInstall();
+
     }, 1000);
 
 });
 
-
 autoUpdater.on("update-not-available", () => {
 
+    console.log("No update available");
+
     updateFinished = true;
-    sendUpdateStatus("Starting Code.HP...");
+
+    sendUpdateStatus(
+        "Starting Code.HP..."
+    );
+
+    tryShowMainWindow();
 
 });
 
+autoUpdater.on("error", (err) => {
 
-autoUpdater.on("error", () => {
+    console.error("Updater error:", err);
 
     updateFinished = true;
-    sendUpdateStatus("Starting Code.HP...");
+
+    sendUpdateStatus(
+        "Starting Code.HP..."
+    );
+
+    tryShowMainWindow();
 
 });
 
-
+// =======================================================
+// APP START
+// =======================================================
 
 app.whenReady().then(() => {
-
 
     global.snippetsDir = path.join(
         app.getPath("userData"),
         "snippets"
     );
 
-
     if (!fs.existsSync(global.snippetsDir)) {
 
         fs.mkdirSync(
             global.snippetsDir,
-            {
-                recursive: true
-            }
+            { recursive: true }
         );
 
     }
-
 
     ipcMain.handle(
         "get-snippets-dir",
         () => global.snippetsDir
     );
 
-
     createSplash();
+
     createWindow();
 
-
-
     if (app.isPackaged) {
+
+        console.log("Production mode");
 
         autoUpdater.checkForUpdates();
 
     } else {
 
+        console.log("Development mode");
+
         updateFinished = true;
-        sendUpdateStatus("Development mode...");
+
+        sendUpdateStatus(
+            "Development mode..."
+        );
+
+        tryShowMainWindow();
 
     }
 
-
-
-    // fallback if updater gets stuck
+    // Fallback after 30 seconds
 
     setTimeout(() => {
 
         if (!updateFinished) {
 
+            console.log(
+                "Updater timeout"
+            );
+
             updateFinished = true;
-            sendUpdateStatus("Starting Code.HP...");
+
+            sendUpdateStatus(
+                "Starting Code.HP..."
+            );
+
+            tryShowMainWindow();
 
         }
 
-    }, 5000);
-
-
+    }, 30000);
 
     const registered = globalShortcut.register(
         "Ctrl+Alt+Space",
         () => {
 
-
             if (!win || win.isDestroyed()) {
                 return;
             }
 
-
             if (splash && !splash.isDestroyed()) {
                 return;
             }
-
 
             if (win.isVisible()) {
 
@@ -212,13 +289,13 @@ app.whenReady().then(() => {
             } else {
 
                 win.show();
+
                 win.focus();
 
             }
 
         }
     );
-
 
     if (!registered) {
 
@@ -228,10 +305,7 @@ app.whenReady().then(() => {
 
     }
 
-
 });
-
-
 
 app.on("will-quit", () => {
 
