@@ -232,6 +232,12 @@ app.whenReady().then(() => {
 
         console.log("Production mode");
 
+        autoUpdater.setFeedURL({
+            provider: 'github',
+            owner: 'lorik440',
+            repo: 'Code.HP'
+        });
+
         autoUpdater.checkForUpdates();
 
     } else {
