@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     tabs.forEach(tab => {
         tab.addEventListener('click',()=>{
 
+            hideEditorView();
+
             //sets  the panel to default mode 
             defaultsnippetmode();
 
@@ -555,5 +557,13 @@ function zoomOut() {
     }
 }
 
+function hideEditorView() {
+    const editorView=document.querySelector('.editorView');
+    editorView.style.display = 'none';
+}
+// function to get the current app version
+
+const package =JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
+document.getElementById("appVersion").textContent = package.version;
 
 ////////////////////////////////////////////////////////////////////////////.

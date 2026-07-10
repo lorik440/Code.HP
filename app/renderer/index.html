@@ -24,7 +24,7 @@
 
         </div>
         <div class="addSnippetContainer">
-            <button id="addSnippet" onclick="addSippetMode()" class="addSnippetBTN ">+</button>
+            <button id="addSnippet" onclick="addSippetMode(); hideEditorView()" class="addSnippetBTN ">+</button>
             <div class="addSnippetComment" > add snippet </div>
         </div>
     </div>
@@ -116,6 +116,19 @@
         </div>
 
         <div id="editorPanel" class="editorPanel" >
+
+            <div class="editorView">
+                <img class="editorViewLogo" src="../assets/icon.ico" alt="Code.HP Logo">
+
+                <h1 id="appVersion" class="editorViewTitle"></h1>
+
+                <p class="editorViewVersion">Version 1.0.7</p>
+
+                <div class="editorViewInfo">
+                    <span>Created by <strong>Lorik Bajrami</strong></span>
+                    <span>Emotional support <strong>Leona Selishta</strong> </span>
+                </div>
+            </div>
 
         </div>
                         

@@ -10,6 +10,8 @@ let splash;
 let updateFinished = false;
 let editorReady = false;
 
+
+
 // =======================================================
 // SHOW MAIN WINDOW WHEN EVERYTHING IS READY
 // =======================================================
@@ -275,6 +277,8 @@ app.whenReady().then(() => {
         }
 
     }, 30000);
+
+    
 
     const registered = globalShortcut.register(
         "Ctrl+Alt+Space",
