@@ -1,0 +1,19 @@
+/*the main colors of the app*/ 
+:root{
+    --bg-body: rgb(8, 9, 11);
+    --bg-container: #121715;
+
+    --text-primary: rgb(210, 214, 212);
+    --text-secondery: rgb(150, 155, 152);
+
+    --border-color: rgb(72, 78, 82);
+
+    --hover--color: rgb(28, 32, 36);
+
+    --editor-bg: rgb(12, 14, 16);
+
+    --alert-danger-color: rgb(92, 38, 38);
+    --alert-confirm-color: rgb(36, 74, 52);
+
+    --message-info-bg: rgb(30, 42, 58);
+}

@@ -3,7 +3,7 @@
 A retro-futuristic alien-themed code snippet manager built with Electron.
 
 ## 🚀 launch app
-Run Code.HP Setup 1.0.0.exe
+Run Code.HP Setup 1._._.exe
 Double-click the desktop shortcut "Code.HP" to open the app.
 
 ## ✨ Features
@@ -23,4 +23,4 @@ Double-click the desktop shortcut "Code.HP" to open the app.
 If needed, run: `npm start`
 
 ---
-**Version**: 1.0.0 | **Built with**: Electron + Monaco Editor
+**Version**: 1.1.3 | **Built with**: Electron + Monaco Editor
