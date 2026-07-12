@@ -34,3 +34,10 @@ body{
         transform:rotate(360deg);
     }
 }
+
+#console {
+    font-family: monospace;
+    font-size: 12px;
+    height: 100px;
+    overflow: hidden;
+}

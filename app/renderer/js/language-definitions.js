@@ -1,3 +1,4 @@
+console.log("language-definitions.js loaded");
 // Enhanced Language Definitions for Monaco Editor - VS Code Exact Matching
 
 function registerCustomLanguages() {

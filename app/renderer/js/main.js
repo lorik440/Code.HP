@@ -1,8 +1,11 @@
+console.log("main.js loaded");
+(() => {
 const nodeRequire = window.nodeRequire || window.require || require;
 window.nodeRequire = nodeRequire;
 const path = nodeRequire('path');
 const { pathToFileURL } = nodeRequire('url');
 const { ipcRenderer } = nodeRequire('electron');
+const fs = nodeRequire('fs');
 
 let snippetsDir;
 
@@ -17,13 +20,15 @@ async function loadAppVersion() {
     document.getElementById("appVersion").textContent = version;
 }
 
-loadAppVersion();
 
-// tab machanizm///////////////////////////////////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', async () => {
+
+    loadAppVersion();
+
     await initSnippetsDir();
-   const fs = nodeRequire('fs');
    const files = fs.readdirSync(snippetsDir);
+
+    // tab machanizm///////////////////////////////////////////////////////////////////////////
 
     //gets snippets form folder
     const snippets =files.map(filename=>{
@@ -108,18 +113,89 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    
+  
+    //event listeners for the buttons
+    const addSnippetBtn = document.getElementById("addSnippet");
+    const saveSnippetBtn = document.getElementById("saveSnippet");
+    const deleteBtn = document.getElementById("deleteSnippetBtn");
+    const copyBtn = document.getElementById("copyCodeBtn");
+    const zoomOutBtn = document.getElementById("zoomOutBtn");
+    const zoomInBtn = document.getElementById("zoomInBtn");
+
+    // Add snippet button
+    if (addSnippetBtn) {
+        addSnippetBtn.addEventListener("click", () => {
+            addSnippetMode();
+            hideEditorView();
+        });
+    }
+
+    // Save snippet button
+    if (saveSnippetBtn) {
+        saveSnippetBtn.addEventListener("click", () => {
+            saveSnippet();
+        });
+    }
+
+    // Delete snippet button
+    if (deleteBtn) {
+        deleteBtn.addEventListener("click", () => {
+
+            showAlert(
+                "Continue to delete snippet: right click to cancel",
+                deleteSnippet
+            );
+
+        });
+    }
+
+    // Copy code button
+    if (copyBtn) {
+        copyBtn.addEventListener("click", () => {
+            copyCode();
+        });
+    }
+
+    // Zoom out button
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener("click", () => {
+            zoomOut();
+        });
+    }
+
+    // Zoom in button
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener("click", () => {
+            zoomIn();
+        });
+    }
+
+
+    //snippet language selector dropdown
+    const input=document.querySelector(".dropdown input");
+    const options=document.querySelectorAll(".dropdown .option");
+
+    options.forEach(option =>{
+        option.addEventListener("mousedown",()=>{
+            input.value =option.textContent;
+            input.dataset.value=option.dataset.value;
+            input.blur();
+
+            //sets the code panel language for writing the snippet 
+            const MonacoLanguage = getMonacoLanguage(option.dataset.value);
+            const model =window.editor.getModel();
+            monaco.editor.setModelLanguage(model, MonacoLanguage);
+        });
+
+    });
 });
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////.
 
 
 //snippet insertion mechanizm/////////////////////////////////////////////////////////////
 
 //toggel add snippet mode
-function addSippetMode(){
+function addSnippetMode(){
     const addSippetpanel =document.querySelector(".addSnippetPanel");
     const defaultPanel =document.querySelector(".topMainPanel");
 
@@ -143,23 +219,7 @@ function defaultsnippetmode(){
 
 
 
-//snippet language selector dropdown
-const input=document.querySelector(".dropdown input");
-const options=document.querySelectorAll(".dropdown .option");
 
-options.forEach(option =>{
-    option.addEventListener("mousedown",()=>{
-        input.value =option.textContent;
-        input.dataset.value=option.dataset.value;
-        input.blur();
-
-        //sets the code panel language for writing the snippet 
-        const MonacoLanguage = getMonacoLanguage(option.dataset.value);
-        const model =window.editor.getModel();
-        monaco.editor.setModelLanguage(model, MonacoLanguage);
-    });
-
-});
 
 function saveSnippet(){
     const fs = nodeRequire('fs');
@@ -570,4 +630,6 @@ function hideEditorView() {
     editorView.style.display = 'none';
 }
 
+
 ////////////////////////////////////////////////////////////////////////////.
+})();

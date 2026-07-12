@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="splash.css">
+    <link rel="stylesheet" href="css/splash.css">
     <title>Code.HP</title>
 </head>
 <body>
@@ -11,16 +11,10 @@
         <img src="../assets/icon.ico" alt="Code.HP Icon" class ="logo">
     
         <h1>Code.HP</h1>
-        <p id="update-status">Loading...</p>
-        <div class="loader"></div>
+        <span id="update-status">Loading: </span>
+        <div id="loadingText"></div>
     </div>
-   
-    <script>
-        const { ipcRenderer } = require("electron");
-        const status = document.getElementById("update-status");
-        ipcRenderer.on("update-status", (event, message) => {
-            status.innerText = message;
-        });
-    </script>
+
+    <script src="./js/splash.js"></script>
 </body>
 </html>

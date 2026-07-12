@@ -23,4 +23,4 @@ Double-click the desktop shortcut "Code.HP" to open the app.
 If needed, run: `npm start`
 
 ---
-**Version**: 1.1.3 | **Built with**: Electron + Monaco Editor
+**Version**: 1.1.5 | **Built with**: Electron + Monaco Editor

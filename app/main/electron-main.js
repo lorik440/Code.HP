@@ -1,3 +1,4 @@
+console.log("electron-main.js loaded");
 // window operations
 const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const { autoUpdater } = require("electron-updater");
@@ -57,7 +58,7 @@ function createSplash() {
         }
     });
 
-    splash.loadFile(
+    return splash.loadFile(
         path.join(__dirname, "..", "renderer", "splash.html")
     );
 
@@ -208,7 +209,7 @@ ipcMain.handle("get-app-version", () => {
     return app.getVersion();
 });
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
 
     global.snippetsDir = path.join(
         app.getPath("userData"),
@@ -229,8 +230,8 @@ app.whenReady().then(() => {
         () => global.snippetsDir
     );
 
-    createSplash();
-
+    await createSplash();
+    
     createWindow();
 
     if (app.isPackaged) {
@@ -281,7 +282,6 @@ app.whenReady().then(() => {
 
     }, 30000);
 
-    
 
     const registered = globalShortcut.register(
         "Ctrl+Alt+Space",
