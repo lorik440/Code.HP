@@ -9,12 +9,8 @@ import {
 
 import { registerCustomLanguages } from "./language-definitions.js";
 
-import {
-    showToast,
-    showAlert
-}from "./notify.js"
 
-export function startMonacoEditor() {
+export function startMonacoEditor(onReady) {
     console.log("monaco editor loaded");
     const monacoBasePath = path.resolve(__dirname, '..', '..', 'node_modules', 'monaco-editor', 'min', 'vs');
     const monacoBaseUrl = `${pathToFileURL(monacoBasePath).href}/`;
@@ -139,8 +135,11 @@ export function startMonacoEditor() {
             }
         });
 
-        
+     if (onReady){
+        onReady();
+     }
     });
+
 }
     //language library for monaco editor 
 
@@ -232,60 +231,3 @@ export function hideEditorView() {
     const editorView=document.querySelector('.editorView');
     editorView.style.display = 'none';
 }
-
-// Copy to clipboard function
-export function copyCode() {
-    if (window.editor) {
-        const code = window.editor.getValue();
-        navigator.clipboard.writeText(code);
-        showToast("copied")
-    }
-}
-
-// function to delete a snippet
-export function deleteSnippet(){
-    const tabActive =document.querySelector(".tab.active");
-
-    if(!tabActive){
-        showToast("snippet not selected");
-        return;
-    }else{
-
-        const fs = nodeRequire('fs');
-        
-        // Get the active tab and snippet info
-        const snippetId = parseInt(tabActive.dataset.id);
-        const snippetName = tabActive.querySelector('.snippetName').textContent;
-        const snippetLanguage = tabActive.querySelector('.snippetLanguage').textContent;
-        
-        // Construct the filename
-        const fileName = `${snippetName}-${snippetId}.${snippetLanguage}`;
-        const filePath = path.join(snippetsDir, fileName);
-        
-        try {
-            // Delete the file
-            fs.unlinkSync(filePath);
-            
-            // Remove the tab from the UI
-            tabActive.remove();
-            
-            // Clear the editor
-            if (window.editor) {
-                window.editor.setValue('');
-            }
-            
-            // Clear the top panel info
-            const TMP_snippetName = document.getElementById("snippetName_TMP");
-            const TMP_language = document.getElementById("language_TMP");
-            if (TMP_snippetName) TMP_snippetName.textContent = '';
-            if (TMP_language) TMP_language.textContent = '';
-            
-            showToast("snippet deleted successfully");
-            
-        } catch (error) {
-            console.error('Error deleting file:', error);
-            showToast("error deleting snippet");
-        }
-    }
-
-};

@@ -13,13 +13,9 @@ import {
     zoomIn,
     zoomOut,
     getMonacoLanguage,
-    hideEditorView,
-    copyCode,
-    deleteSnippet
+    hideEditorView
 } from "./monaco-editor.js";
 (() => {
-
-   
 
 let snippetsDir;
 
@@ -156,7 +152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         deleteBtn.addEventListener("click", () => {
 
             showAlert("Continue to delete snippet: right click to cancel",
-                deleteSnippet()
+                deleteSnippet
             );
 
         });
@@ -285,10 +281,133 @@ function saveSnippet(){
     }, 1000);
     
 }
+//add message toast
+function showToast(text) {
+    const toast = document.createElement('div');
+    toast.textContent = text;
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 50%;
+        background: var(--alert-confirm-color);
+        border:1px solid var(--border-color);
+        color: white;
+        padding: 5px 8px;
+        font-size:small;
+        border-radius: 4px;
+        z-index: 1000;
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        document.body.removeChild(toast);
+    }, 2000);
+}
  
-//Code editor panel ////////////////////////////////////////////////////
-startMonacoEditor();
-ipcRenderer.send("editor-ready");
 
+
+
+// function to show an alert
+function showAlert(text, callback ){
+    const message =document.querySelector(".message");
+    const parentDiv=document.querySelector(".parent");
+
+    parentDiv.classList.add("blur");
+    message.textContent=text;
+    message.classList.remove("hidden");
+
+    
+    message.addEventListener("click",()=>{
+        if(!callback){
+            parentDiv.classList.remove("blur");
+            message.textContent="";
+            message.classList.add("hidden");
+            return;
+        }
+        if(callback){
+
+            parentDiv.classList.remove("blur");
+            message.textContent="";
+            message.classList.add("hidden");
+
+            callback();
+            return;
+        }
+    },{once: true});
+
+    message.addEventListener("contextmenu",()=>{
+        parentDiv.classList.remove("blur");
+        message.textContent="";
+        message.classList.add("hidden");
+        return;
+    })
+    
+    
+    
+};  
+// Copy to clipboard function
+function copyCode() {
+    if (window.editor) {
+        const code = window.editor.getValue();
+        navigator.clipboard.writeText(code);
+        showToast("copied")
+    }
+}
+
+// function to delete a snippet
+function deleteSnippet(){
+    const tabActive =document.querySelector(".tab.active");
+
+    if(!tabActive){
+        showToast("snippet not selected");
+        return;
+    }else{
+        
+        // Get the active tab and snippet info
+        const snippetId = parseInt(tabActive.dataset.id);
+        const snippetName = tabActive.querySelector('.snippetName').textContent;
+        const snippetLanguage = tabActive.querySelector('.snippetLanguage').textContent;
+        
+        // Construct the filename
+        const fileName = `${snippetName}-${snippetId}.${snippetLanguage}`;
+        const filePath = path.join(snippetsDir, fileName);
+        
+      
+        
+        try {
+            // Delete the file
+            fs.unlinkSync(filePath);
+            
+            // Remove the tab from the UI
+            tabActive.remove();
+            
+            // Clear the editor
+            if (window.editor) {
+                window.editor.setValue('');
+            }
+            
+            // Clear the top panel info
+            const TMP_snippetName = document.getElementById("snippetName_TMP");
+            const TMP_language = document.getElementById("language_TMP");
+            if (TMP_snippetName) TMP_snippetName.textContent = '';
+            if (TMP_language) TMP_language.textContent = '';
+            
+            showToast("snippet deleted successfully");
+            
+        } catch (error) {
+            console.error('Error deleting file:', error);
+            showToast("error deleting snippet");
+        }
+    }
+
+};
+
+
+
+//Code editor panel ////////////////////////////////////////////////////
+startMonacoEditor(()=>{
+    ipcRenderer.send("editor-ready");
+});
 ////////////////////////////////////////////////////////////////////////////.
 })();

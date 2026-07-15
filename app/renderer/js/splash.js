@@ -1,7 +1,12 @@
 console.log("splash loaded");
+
+import {
+    nodeRequire,
+    ipcRenderer,
+    
+
+}from "../../main/electron-deps.js"
 (() => {
-const nodeRequire = window.nodeRequire || window.require || require;
-const { ipcRenderer } = nodeRequire("electron");
 const status = document.getElementById("update-status");
 
 ipcRenderer.on("update-status", (_event, message) => {

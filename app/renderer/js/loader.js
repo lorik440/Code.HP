@@ -1,9 +1,12 @@
 console.log('Loading components...');
-(() => {
 
-const nodeRequire = window.nodeRequire || window.require || require;
-const path = nodeRequire('path');
-const fs = nodeRequire('fs');
+import{
+    nodeRequire,
+    path,
+    fs
+}from "../../main/electron-deps.js"
+
+(() => {
 
 function loadComponents(containerId, fileName) {
 
