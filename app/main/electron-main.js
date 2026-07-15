@@ -18,7 +18,7 @@ let editorReady = false;
 // =======================================================
 
 function tryShowMainWindow() {
-
+    
     if (!updateFinished || !editorReady) {
         return;
     }

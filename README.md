@@ -22,5 +22,9 @@ Double-click the desktop shortcut "Code.HP" to open the app.
 ## 🛠️ Manual Launch
 If needed, run: `npm start`
 
+## dev 
+for more information on upcoming features or bug fixes, see todo list here:
+[TODO List](TODO.md)
+
 ---
 **Version**: 1.1.5 | **Built with**: Electron + Monaco Editor

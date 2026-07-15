@@ -1,7 +1,6 @@
-console.log("language-definitions.js loaded");
 // Enhanced Language Definitions for Monaco Editor - VS Code Exact Matching
 
-function registerCustomLanguages() {
+export function registerCustomLanguages() {
     
     // PHP Language Definition (VS Code exact color matching)
     monaco.languages.register({ id: 'php' });
@@ -85,5 +84,3 @@ function registerCustomLanguages() {
 
 }
 
-// Export for use in main.js
-window.registerCustomLanguages = registerCustomLanguages;
