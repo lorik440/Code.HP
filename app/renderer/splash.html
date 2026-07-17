@@ -2,19 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/splash.css">
     <title>Code.HP</title>
 </head>
+
 <body>
-    <div class="container">
-        <img src="../assets/icon.ico" alt="Code.HP Icon" class ="logo">
-    
+
+<div class="container">
+
+    <div class="glow"></div>
+
+    <div class="terminal">
+
+        <div class="terminal-head">
+            <div>[<b>V</b> <b id="appVersion"></b>]</div>
+            <span>SECURE BOOT</span>
+        </div>
+
+
+        <img src="../assets/icon.ico" class="logo">
+
+
         <h1>Code.HP</h1>
-        <span id="update-status">Loading: </span>
-        <div id="loadingText"></div>
+
+
+        <span id="update-status">
+            Loading:
+        </span>
+
+
+        <div id="loadingText">
+        </div>
+
+
+        <div class="prompt">
+            root@codehp:~$ ./codehp --boot
+            <span id="spinner"></span>
+        </div>
+
+
     </div>
 
-    <script type="module" src="./js/splash.js"></script>
+</div>
+
+
+<script type="module" src="./js/splash.js"></script>
+
 </body>
 </html>

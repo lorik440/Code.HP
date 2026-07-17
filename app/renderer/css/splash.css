@@ -1,43 +1,305 @@
-body{
+@font-face {
+    font-family: VT323;
+    src: url("../assets/fonts/VT323-Regular.ttf");
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
     margin:0;
-    background:#121715;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+    padding:0;
+
+    width:100%;
+    height:100%;
+
     overflow:hidden;
+
+    background:transparent;
+
     font-family:VT323, monospace;
-    color:white;
+
 }
 
-.container{
-    text-align:center;
+
+/* Electron window shape */
+
+body {
+
+    border-radius:10px;
+
+    overflow:hidden;
+
 }
 
-.logo{
-    width:80px;
-    margin-bottom:0px;
+
+/* Main terminal shell */
+
+.container {
+
+    width:100%;
+    height:100%;
+
+    padding:18px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:10px;
+
+
+    background:
+    radial-gradient(
+        120% 120% at 50% 0%,
+        #06170f,
+        #020604 70%
+    );
+
+
+    color:#27ff9c;
+
+
+    box-shadow:
+
+    inset 0 0 80px rgba(39,255,156,.12),
+
+    inset 0 0 30px rgba(0,0,0,.9),
+
+    0 0 0 3px #0b1f16,
+
+    0 0 30px rgba(0,0,0,.8);
+
 }
 
-.loader{
-    margin:30px auto 0;
-    width:42px;
-    height:42px;
-    border:4px solid #444;
-    border-top-color:#4ea1ff;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
+
+
+/* CRT glass overlay */
+
+.container::before {
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+
+    background:
+
+    linear-gradient(
+        180deg,
+        rgba(39,255,156,.05),
+        transparent 40%
+    );
+
+
+    border-radius:10px;
+
 }
 
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
+
+
+/* Scanlines */
+
+.container::after {
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+
+    border-radius:10px;
+
+
+    background:
+
+    repeating-linear-gradient(
+        0deg,
+        transparent 0 2px,
+        rgba(0,0,0,.3) 2px 4px
+    );
+
+
+    animation:scan 8s linear infinite;
+
+}
+
+
+
+@keyframes scan {
+
+    to {
+        background-position:0 200px;
     }
+
 }
 
-#console {
-    font-family: monospace;
-    font-size: 12px;
-    height: 100px;
-    overflow: hidden;
+
+
+/* Content */
+
+.terminal {
+
+    position:relative;
+
+    z-index:5;
+
+    padding:15px;
+
+    height:100%;
+
+
+    text-shadow:
+
+    0 0 6px rgba(39,255,156,.7);
+
+}
+
+
+
+/* Header */
+
+.terminal-head {
+
+    display:flex;
+
+    justify-content: space-between;
+
+
+    font-size:14px;
+
+    color:#13895a;
+
+
+    border-bottom:1px dashed #13895a;
+
+
+    padding-bottom:8px;
+
+}
+
+
+
+.terminal-head b {
+
+    color:#27ff9c;
+
+    letter-spacing:3px;
+
+}
+
+
+
+/* Logo */
+
+.logo {
+
+    width:45px;
+
+    margin-top:12px;
+
+
+    filter:
+
+    drop-shadow(0 0 8px #27ff9c);
+
+}
+
+
+
+/* Title */
+
+h1 {
+
+    margin:5px 0;
+
+    font-size:34px;
+
+    letter-spacing:5px;
+
+
+    color:#27ff9c;
+
+}
+
+
+
+/* Status */
+
+#update-status {
+
+    display:block;
+
+    font-size:18px;
+
+    color:#27ff9c;
+
+}
+
+
+
+/* Logs */
+
+#loadingText {
+
+    margin-top:8px;
+
+
+    font-size:15px;
+
+    line-height:1.4;
+
+
+    color:#27ff9c;
+
+
+    max-height:80px;
+
+    overflow:hidden;
+
+}
+
+
+
+/* Command prompt */
+
+.prompt {
+
+    margin-top:10px;
+
+
+    border-top:1px dashed #13895a;
+
+
+    padding-top:8px;
+
+
+    color:#ffb000;
+
+}
+
+
+
+#spinner {
+
+    display:inline-block;
+
+    margin-left:6px;
+
+    color:#27ff9c;
+
+    text-shadow:0 0 8px #27ff9c;
+
 }

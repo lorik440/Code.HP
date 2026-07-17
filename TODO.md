@@ -8,5 +8,6 @@
 
 ## Features
 - [] add animations and tweek ui to fit the theme more .nr1
-- [] add a preload.js to manage the workflow of the files and code
+    - [x] styled flash window/ added animation and structured the html page...
+- [] add a preload.js to manage the workflow of the files and codes
 - [] add snippets folders for better organization
