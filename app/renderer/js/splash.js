@@ -15,12 +15,14 @@ async function loadAppVersion() {
 }
 loadAppVersion();
 
+//get update status
 const status = document.getElementById("update-status");
 
 ipcRenderer.on("update-status", (_event, message) => {
     status.innerText = message;
 });
 
+//unfinished featur 
 ipcRenderer.on("app-log", (_event, message) => {
     logQueue.push(message);
     processLogQueue();

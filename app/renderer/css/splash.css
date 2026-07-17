@@ -210,10 +210,9 @@ body {
 
     margin-top:12px;
 
-
     filter:
 
-    drop-shadow(0 0 8px #27ff9c);
+    drop-shadow(0 0 3px #27ff9c);
 
 }
 
@@ -240,7 +239,7 @@ h1 {
 
 #update-status {
 
-    display:block;
+    display:inline-block;
 
     font-size:18px;
 
@@ -290,7 +289,9 @@ h1 {
 
 }
 
-
+#loadingText {
+    display: inline;
+}
 
 #spinner {
 

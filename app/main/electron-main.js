@@ -153,7 +153,7 @@ autoUpdater.on("download-progress", (progress) => {
     );
 
     sendUpdateStatus(
-        `Downloading... ${Math.round(progress.percent)}%`
+        `Downloading ${Math.round(progress.percent)}`
     );
 
 });
@@ -253,7 +253,7 @@ app.whenReady().then(async () => {
         updateFinished = true;
 
         sendUpdateStatus(
-            "Development mode..."
+            "Development mode"
         );
 
         tryShowMainWindow();
