@@ -1,4 +1,3 @@
-console.log("main.js loaded");
 
 import {
     nodeRequire,
@@ -16,6 +15,8 @@ import {
     hideEditorView
 } from "./monaco-editor.js";
 (() => {
+
+ipcRenderer.send("splash-message","main.js");
 
 let snippetsDir;
 

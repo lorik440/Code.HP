@@ -3,7 +3,8 @@ console.log('Loading components...');
 import{
     nodeRequire,
     path,
-    fs
+    fs,
+    ipcRenderer
 }from "../../main/electron-deps.js"
 
 (() => {
@@ -39,18 +40,20 @@ function loadComponents(containerId, fileName) {
 document.addEventListener("DOMContentLoaded", () => {
 
     loadComponents("sidebar", "sidebar.html");
-   
+    ipcRenderer.send("splash-message","sidebar");
 
     loadComponents("topMainPanel", "top-main-panel.html");
-   
+    ipcRenderer.send("splash-message","top main panel");
 
     loadComponents("addSnippetPanel", "add-snippet-panel.html");
-
+    ipcRenderer.send("splash-message","add snippet panel");
 
     loadComponents("options", "language-options.html");
-
+    ipcRenderer.send("splash-message","language options.");
 
     loadComponents("editorPanel", "editor-panel.html");
+    ipcRenderer.send("splash-message","editor panel");
+
     
 
 });

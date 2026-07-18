@@ -109,16 +109,21 @@ function createWindow() {
 // SPLASH STATUS
 // =======================================================
 
-function sendUpdateStatus(message) {
+ipcMain.on("splash-message", (_event, message) => {
+
+    console.log("[MAIN] Forwarding:", message);
 
     if (splash && !splash.isDestroyed()) {
-
-        splash.webContents.send(
-            "update-status",
-            message
-        );
-
+        splash.webContents.send("splash-message", message);
     }
+
+});
+
+function sendSplashMessage(message) {
+
+    if (!splash || splash.isDestroyed()) return;
+
+    splash.webContents.send("splash-message", message);
 
 }
 
@@ -128,9 +133,9 @@ function sendUpdateStatus(message) {
 
 autoUpdater.on("checking-for-update", () => {
 
-    console.log("Checking for updates...");
+    console.log("Checking for updates");
 
-    sendUpdateStatus("Checking for updates...");
+    sendSplashMessage("Checking for updates");
 
 });
 
@@ -140,8 +145,8 @@ autoUpdater.on("update-available", (info) => {
 
     updateFinished = false;
 
-    sendUpdateStatus(
-        `Downloading update ${info.version}...`
+    sendSplashMessage(
+        `Downloading update ${info.version}`
     );
 
 });
@@ -149,10 +154,10 @@ autoUpdater.on("update-available", (info) => {
 autoUpdater.on("download-progress", (progress) => {
 
     console.log(
-        `Downloading ${Math.round(progress.percent)}%`
+        `Downloading ${Math.round(progress.percent)}`
     );
 
-    sendUpdateStatus(
+   sendSplashMessage(
         `Downloading ${Math.round(progress.percent)}`
     );
 
@@ -162,8 +167,8 @@ autoUpdater.on("update-downloaded", () => {
 
     console.log("Update downloaded");
 
-    sendUpdateStatus(
-        "Installing update..."
+    sendSplashMessage(
+        "Installing update"
     );
 
     setTimeout(() => {
@@ -180,7 +185,7 @@ autoUpdater.on("update-not-available", () => {
 
     updateFinished = true;
 
-    sendUpdateStatus(
+    sendSplashMessage(
         "Starting Code.HP..."
     );
 
@@ -194,7 +199,7 @@ autoUpdater.on("error", (err) => {
 
     updateFinished = true;
 
-    sendUpdateStatus(
+    sendSplashMessage(
         "Starting Code.HP..."
     );
 
@@ -252,7 +257,7 @@ app.whenReady().then(async () => {
 
         updateFinished = true;
 
-        sendUpdateStatus(
+        sendSplashMessage(
             "Development mode"
         );
 
@@ -272,7 +277,7 @@ app.whenReady().then(async () => {
 
             updateFinished = true;
 
-            sendUpdateStatus(
+            sendSplashMessage(
                 "Starting Code.HP..."
             );
 

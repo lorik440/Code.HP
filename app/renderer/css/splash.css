@@ -152,18 +152,16 @@ body {
 
 .terminal {
 
-    position:relative;
+    position: relative;
+    z-index: 5;
 
-    z-index:5;
+    height: 100%;
+    padding: 15px;
 
-    padding:15px;
+    display: flex;
+    flex-direction: column;
 
-    height:100%;
-
-
-    text-shadow:
-
-    0 0 6px rgba(39,255,156,.7);
+    text-shadow: 0 0 6px rgba(39,255,156,.7);
 
 }
 
@@ -200,23 +198,18 @@ body {
 
 }
 
+.center-content {
 
+    flex: 1;
 
-/* Logo */
+    display: flex;
+    flex-direction: column;
 
-.logo {
+    justify-content: center;
 
-    width:45px;
-
-    margin-top:12px;
-
-    filter:
-
-    drop-shadow(0 0 3px #27ff9c);
+    align-items: flex-start;
 
 }
-
-
 
 /* Title */
 
@@ -233,67 +226,9 @@ h1 {
 
 }
 
-
-
-/* Status */
-
-#update-status {
-
-    display:inline-block;
-
-    font-size:18px;
-
-    color:#27ff9c;
-
-}
-
-
-
 /* Logs */
 
-#loadingText {
-
-    margin-top:8px;
-
-
-    font-size:15px;
-
-    line-height:1.4;
-
-
-    color:#27ff9c;
-
-
-    max-height:80px;
-
-    overflow:hidden;
-
-}
-
-
-
-/* Command prompt */
-
-.prompt {
-
-    margin-top:10px;
-
-
-    border-top:1px dashed #13895a;
-
-
-    padding-top:8px;
-
-
-    color:#ffb000;
-
-}
-
-#loadingText {
-    display: inline;
-}
-
-#spinner {
+.spinner {
 
     display:inline-block;
 
@@ -302,5 +237,74 @@ h1 {
     color:#27ff9c;
 
     text-shadow:0 0 8px #27ff9c;
+
+}
+
+.name-ascii {
+
+    margin: 0;
+
+    font-size: clamp(8px, .55vw, 20px);
+
+    line-height: 1.15;
+
+    white-space: pre;
+
+    text-align: left;
+
+}
+
+
+
+.prompt {
+
+    border-top:1px dashed #13895a;
+
+    padding-top:8px;
+
+    color:#27ff9c;
+
+    height:90px;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-end;
+
+}
+
+
+#terminal-output {
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-end;
+
+    gap:4px;
+
+}
+
+@keyframes slideUp {
+
+    from {
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to {
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
 
 }

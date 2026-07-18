@@ -1,9 +1,7 @@
-console.log("splash loaded");
 
 import {
     nodeRequire,
     ipcRenderer,
-    
 
 }from "../../main/electron-deps.js"
 (() => {
@@ -15,19 +13,41 @@ async function loadAppVersion() {
 }
 loadAppVersion();
 
-//get update status
-const status = document.getElementById("update-status");
+//terminal message 
+const output = document.getElementById("terminal-output");
 
-ipcRenderer.on("update-status", (_event, message) => {
-    status.innerText = message;
+let currentSpinner = null;
+
+ipcRenderer.on("splash-message", (_, message) => {
+
+    // Remove spinner from previous line
+    if (currentSpinner) {
+        currentSpinner.remove();
+    }
+
+    // Create a new line
+    const line = document.createElement("div");
+    line.className = "terminal-line";
+
+    // Message
+    const text = document.createElement("span");
+    text.textContent = `> ${message}`;
+
+    // Spinner
+    const spinner = document.createElement("span");
+    spinner.className = "spinner";
+
+    line.appendChild(text);
+    line.appendChild(spinner);
+
+    output.appendChild(line);
+
+    currentSpinner = spinner;
+
+    output.scrollTop = output.scrollHeight;
 });
 
-//unfinished featur 
-ipcRenderer.on("app-log", (_event, message) => {
-    logQueue.push(message);
-    processLogQueue();
-});
-
+//spinner 
 const frames = [
     "⠋","⠙","⠹","⠸",
     "⠼","⠴","⠦","⠧",
@@ -37,7 +57,7 @@ const frames = [
 let i = 0;
 
 setInterval(() => {
-    document.getElementById("spinner").textContent = frames[i];
+    document.querySelector(".spinner").textContent = frames[i];
     i = (i + 1) % frames.length;
 }, 50);
 
