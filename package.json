@@ -1,7 +1,7 @@
 {
     "name": "code-hp",
     "productName": "Code.HP",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Code snippet manager with retro-futuristic alien UI",
     "main": "app/main/electron-main.js",
     "author": "lorik",

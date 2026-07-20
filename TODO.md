@@ -2,9 +2,10 @@
 - [x] fix deleteSnippet() function in monaco-editor.js not loading showAlert() function in notify.js 
 
 ## Improvements
-- [] reduece the number of eventlisteners in main.js
+- [x] reduece the number of eventlisteners in main.js
 - [] organize the code in main.js 
-- [] improve IPS structure 
+- [] improve IPS structure
+- [] create kernel.js to controle the workflow of the app 
 
 ## Features
 - [] add animations and tweek ui to fit the theme more .nr1

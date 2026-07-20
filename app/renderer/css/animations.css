@@ -1,0 +1,104 @@
+.text-pulse {
+    animation: fadein 0.4s alternate infinite;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.monitor {
+    transform: perspective(800px);
+    box-shadow:
+        inset 0 0 60px rgba(0,255,120,0.08),
+        inset 0 0 10px rgba(255,255,255,0.08),
+        0 10px 40px rgba(0,0,0,0.7);
+}
+
+/* glass surface */
+.monitor::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.12),
+            transparent 25%
+        );
+
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* curved screen depth */
+.monitor::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 50%,
+            rgba(0,0,0,0.35) 100%
+        );
+
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* CRT text flicker */
+@keyframes crt-flicker {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    7% {
+        opacity: .795;
+        filter: brightness(1.01);
+    }
+
+    7.3% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    23% {
+        opacity: .79;
+        filter: brightness(.99);
+    }
+
+    23.4% {
+        opacity: 1;
+    }
+
+    51% {
+        opacity: .785;
+        filter: brightness(1.015);
+    }
+
+    51.2% {
+        opacity: 1;
+    }
+
+    73% {
+        opacity: .792;
+    }
+
+    73.1% {
+        opacity: 1;
+    }
+
+    89% {
+        opacity: .788;
+        filter: brightness(.995);
+    }
+
+    89.3% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+}

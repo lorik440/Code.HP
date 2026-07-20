@@ -1,4 +1,4 @@
-console.log('Loading components...');
+ipcRenderer.send("splash-message","loader.js");
 
 import{
     nodeRequire,
@@ -12,8 +12,6 @@ import{
 function loadComponents(containerId, fileName) {
 
     const filepath = path.join( __dirname,"html-components",fileName );
-   
-    console.log('Loading component:', filepath);
 
     if (!fs.existsSync(filepath)) {
         console.log('File not found:', filepath);
@@ -49,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ipcRenderer.send("splash-message","add snippet panel");
 
     loadComponents("options", "language-options.html");
-    ipcRenderer.send("splash-message","language options.");
+    ipcRenderer.send("splash-message","language options");
 
     loadComponents("editorPanel", "editor-panel.html");
     ipcRenderer.send("splash-message","editor panel");

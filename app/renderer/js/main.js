@@ -1,3 +1,4 @@
+ipcRenderer.send("splash-message","main.js");
 
 import {
     nodeRequire,
@@ -16,7 +17,6 @@ import {
 } from "./monaco-editor.js";
 (() => {
 
-ipcRenderer.send("splash-message","main.js");
 
 let snippetsDir;
 
@@ -68,40 +68,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     tabSpace.innerHTML = tabsHTML;
 
     //checkbox mekanizm for tabs
-    const tabs =document.querySelectorAll('.tab');
-    tabs.forEach(tab => {
-        tab.addEventListener('click',()=>{
+    tabSpace.addEventListener('click',(e)=>{
+        const tab =e.target.closest(".tab");
+        if(!tab) return;
+         
+        //clears monaco editor of the logo
+        hideEditorView();
+        //sets monaco editor to default mode 
+        defaultsnippetmode();
 
-            hideEditorView();
+        //removes the active class fro all tabs
+        document.querySelectorAll('.tab.active')
+        .forEach(t => t.classList.remove('active'));
 
-            //sets  the panel to default mode 
-            defaultsnippetmode();
+        //adds the active class to the clicked tab 
+        tab.classList.add('active');
 
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+        //load file content into to code panel
+        const snippetId = parseInt(tab.dataset.id);
+        const snippet = snippets.find(s => s.id === snippetId);
+        const fileName = `${snippet.name}-${snippet.id}.${snippet.language}`;
+        const filePath = path.join(snippetsDir, fileName);
+        const fileContent = fs.readFileSync(filePath, 'utf8');
 
-            //load file content into to code panel
-            const snippetId = parseInt(tab.dataset.id);
-            const snippet = snippets.find(s => s.id === snippetId);
-            const fileName = `${snippet.name}-${snippet.id}.${snippet.language}`;
-            const filePath = path.join(snippetsDir, fileName);
-            const fileContent = fs.readFileSync(filePath, 'utf8');
-
-            //paste snippet name & language on the code top panel
-            const TMP_snippetName = document.getElementById("snippetName_TMP");
-            const TMP_language =document.getElementById("language_TMP");
-            TMP_snippetName.textContent = `${snippet.name}`;
-            TMP_language.textContent = `${snippet.language}`;
-            
-            //paste the snippet code to the code panel
-            window.editor.setValue(fileContent);
-            const MonacoLanguage = getMonacoLanguage(snippet.language);
-            monaco.editor.setModelLanguage(window.editor.getModel(), MonacoLanguage);
-        });
+        //paste snippet name & language on the code top panel
+        const TMP_snippetName = document.getElementById("snippetName_TMP");
+        const TMP_language =document.getElementById("language_TMP");
+        TMP_snippetName.textContent = `${snippet.name}`;
+        TMP_language.textContent = `${snippet.language}`;
+        
+        //paste the snippet code to the code panel
+        window.editor.setValue(fileContent);
+        const MonacoLanguage = getMonacoLanguage(snippet.language);
+        monaco.editor.setModelLanguage(window.editor.getModel(), MonacoLanguage);
 
     });
 
     // Search functionality for snippets
+    const tabs =document.querySelectorAll('.tab');
     const searchBar = document.getElementById("SearchSnippet");
     searchBar.addEventListener("input", () => {
         const searchBarInput = searchBar.value.toLowerCase();
@@ -183,19 +187,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     //snippet language selector dropdown
     const input=document.querySelector(".dropdown input");
-    const options=document.querySelectorAll(".dropdown .option");
+    const options =document.querySelector('.options');
 
-    options.forEach(option =>{
-        option.addEventListener("mousedown",()=>{
-            input.value =option.textContent;
-            input.dataset.value=option.dataset.value;
-            input.blur();
+    options.addEventListener('mousedown', (e)=>{
+        const option =e.target.closest('.option');
+        if(!option) return;
 
-            //sets the code panel language for writing the snippet 
-            const MonacoLanguage = getMonacoLanguage(option.dataset.value);
-            const model =window.editor.getModel();
-            monaco.editor.setModelLanguage(model, MonacoLanguage);
-        });
+        input.value =option.textContent;
+        input.dataset.value=option.dataset.value;
+        input.blur();
+
+        //sets the code panel language for writing the snippet 
+        const MonacoLanguage = getMonacoLanguage(option.dataset.value);
+        const model =window.editor.getModel();
+        monaco.editor.setModelLanguage(model, MonacoLanguage);
 
     });
 });
@@ -228,7 +233,6 @@ function defaultsnippetmode(){
 };
 
 function saveSnippet(){
-    const fs = nodeRequire('fs');
 
     //get the name, language, and code from the code panel
     const SnippetNameInput=document.getElementById("SnippetNameInput");

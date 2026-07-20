@@ -1,4 +1,5 @@
 console.log("electron-main.js loaded");
+
 // window operations
 const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const { autoUpdater } = require("electron-updater");
@@ -28,9 +29,18 @@ function tryShowMainWindow() {
     }
 
     if (win && !win.isDestroyed()) {
-        win.show();
+
+        if(!win.isVisible()){
+           win.show(); 
+        }
+
+        if(win.isMinimized()){
+            win.restore();
+        }
+        
         win.focus();
     }
+   
 
 }
 
@@ -109,16 +119,6 @@ function createWindow() {
 // SPLASH STATUS
 // =======================================================
 
-ipcMain.on("splash-message", (_event, message) => {
-
-    console.log("[MAIN] Forwarding:", message);
-
-    if (splash && !splash.isDestroyed()) {
-        splash.webContents.send("splash-message", message);
-    }
-
-});
-
 function sendSplashMessage(message) {
 
     if (!splash || splash.isDestroyed()) return;
@@ -126,6 +126,15 @@ function sendSplashMessage(message) {
     splash.webContents.send("splash-message", message);
 
 }
+
+ipcMain.on("splash-message", (_event, message) => {
+
+    if (splash && !splash.isDestroyed()) {
+        splash.webContents.send("splash-message", message);
+    }
+
+});
+
 
 // =======================================================
 // AUTO UPDATER
@@ -186,7 +195,7 @@ autoUpdater.on("update-not-available", () => {
     updateFinished = true;
 
     sendSplashMessage(
-        "Starting Code.HP..."
+        "Starting Code.HP"
     );
 
     tryShowMainWindow();
@@ -200,7 +209,7 @@ autoUpdater.on("error", (err) => {
     updateFinished = true;
 
     sendSplashMessage(
-        "Starting Code.HP..."
+        "Starting Code.HP"
     );
 
     tryShowMainWindow();
@@ -278,7 +287,7 @@ app.whenReady().then(async () => {
             updateFinished = true;
 
             sendSplashMessage(
-                "Starting Code.HP..."
+                "Starting Code.HP."
             );
 
             tryShowMainWindow();

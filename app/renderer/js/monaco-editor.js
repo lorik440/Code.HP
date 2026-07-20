@@ -1,4 +1,5 @@
 //Code editor panel ////////////////////////////////////////////////////
+
 import {
     nodeRequire,
     path,
@@ -11,7 +12,6 @@ import { registerCustomLanguages } from "./language-definitions.js";
 
 
 export function startMonacoEditor(onReady) {
-    console.log("monaco editor loaded");
     const monacoBasePath = path.resolve(__dirname, '..', '..', 'node_modules', 'monaco-editor', 'min', 'vs');
     const monacoBaseUrl = `${pathToFileURL(monacoBasePath).href}/`;
 
