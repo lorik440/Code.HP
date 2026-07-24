@@ -23,7 +23,7 @@
     "build": {
         "appId": "com.lorik.code-hp",
         "productName": "Code.HP",
-        "compression": "store",
+        "compression": "normal",
         "publish": [
             {
                 "provider": "github",

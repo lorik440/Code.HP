@@ -15,8 +15,12 @@ import {
     getMonacoLanguage,
     hideEditorView
 } from "./monaco-editor.js";
-(() => {
 
+const storage = require("../services/Storage");
+
+const folder = storage.getSnippetsDir();
+
+(() => {
 
 let snippetsDir;
 
