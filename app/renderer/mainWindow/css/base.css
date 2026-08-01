@@ -63,7 +63,6 @@ hr{
     margin: 0;
 } 
 
-/*custom scrollbar to match dark theme*/
 ::-webkit-scrollbar {
     width: 4px;
     height: 4px;

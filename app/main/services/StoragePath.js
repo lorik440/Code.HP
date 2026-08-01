@@ -1,8 +1,6 @@
-const path = require("path");
-const fs = require("fs");
-const { app, ipcMain } = require("electron");
+const { app, ipcMain, path, fs } = require("../deps/electron.deps.js");
 
-function setStoragePath(){
+function setStoragePath() {
 
     global.snippetsDir = path.join(
         app.getPath("userData"),
@@ -10,12 +8,7 @@ function setStoragePath(){
     );
 
     if (!fs.existsSync(global.snippetsDir)) {
-
-        fs.mkdirSync(
-            global.snippetsDir,
-            { recursive: true }
-        );
-
+        fs.mkdirSync(global.snippetsDir, { recursive: true });
     }
 
     ipcMain.handle(
@@ -24,5 +17,4 @@ function setStoragePath(){
     );
 }
 
-module.exports= setStoragePath;
- 
+module.exports = setStoragePath;

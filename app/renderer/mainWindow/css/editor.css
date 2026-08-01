@@ -1,4 +1,3 @@
-/*styleing of the editor panel*/
 .editorPanel{
     position: relative;
 }
@@ -11,7 +10,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     gap: 10px;
     pointer-events: none;
     user-select: none;
@@ -20,29 +18,22 @@
 .editorViewLogo {
     width: 96px;
     height: 96px;
-
     opacity: 0.4;
     filter: grayscale(50%) brightness(1.1);
-
     margin-bottom: 12px;
-
 }
-
 
 .editorViewTitle {
     margin: 0;
-
     font-size: 28px;
     font-weight: 600;
     letter-spacing: 0.06em;
-
     color: var(--text-primary);
     opacity: 0.2;
 }
 
 .editorViewVersion {
     margin: -4px 0 14px;
-
     font-size: 12px;
     color: var(--text-secondery);
     opacity: 0.3;
@@ -53,7 +44,6 @@
     flex-direction: column;
     align-items: center;
     gap: 4px;
-
     font-size: 12px;
     color: var(--text-secondery);
     opacity: 0.45;

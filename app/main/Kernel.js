@@ -50,7 +50,7 @@ class Kernel {
             }, false
         )
 
-        await this.runStep("checking for updates",
+        await this.runStep("updates",
             async()=>{
                 await new Promise((resolve) => {
                     updater(this, resolve);

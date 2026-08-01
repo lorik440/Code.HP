@@ -1,6 +1,6 @@
 import {
     ipcRenderer,
-} from "../../main/deps/render-deps.js"
+} from "../../../main/deps/render-deps.js"
 
 ipcRenderer.send("splash-message", { message: "splash window", status: "loading", step: "splash" });
 
@@ -34,7 +34,6 @@ ipcRenderer.on("splash-message", (_, msg) => {
     if (step && stepLines.has(step)) {
 
         const entry = stepLines.get(step);
-
         entry.status.textContent = status === "success" ? "[SUCCESS]" : `[${status}]`;
         entry.status.classList.remove("hidden");
         entry.spinner.remove();
@@ -58,7 +57,7 @@ ipcRenderer.on("splash-message", (_, msg) => {
         line.appendChild(statusEl);
         line.appendChild(text);
 
-        if(status ==="loading"){
+        if (status === "loading") {
             line.appendChild(spinner);
         }
         if (status !== "loading") {

@@ -22,7 +22,6 @@
     grid-column-start: 3;
 }
 
-
 .addSnippetContainer{
     position: absolute;
     height: max-content;
@@ -59,5 +58,3 @@
     pointer-events: none;
     transition: opacity 0.5s ease, visibility 0s linea 1.5s; 
 }
-
-

@@ -1,23 +1,39 @@
+const { app } = require("../deps/electron.deps.js");
 const { log } = require("./Logger.js");
-const { app } = require("electron");
 
-function updater(kernel, resolve){
+function updater(kernel, resolve) {
     const { autoUpdater } = require("electron-updater");
 
-    autoUpdater.on("checking-for-update", () => {
+    if (!app.isPackaged) {
+        kernel.context.updateFinished = true;
+        log("development mode — skipping updates", "success", "updates");
+        resolve();
+        kernel.tryShow();
+        return;
+    }
+
+    const timeout = setTimeout(() => {
+        kernel.context.updateFinished = true;
+        log("update check timed out", "failed", "updates");
+        resolve();
+        kernel.tryShow();
+    }, 30000);
+
+    autoUpdater.once("checking-for-update", () => {
         log("checking for updates", "loading", "updates");
     });
 
-    autoUpdater.on("update-available", (info) => {
+    autoUpdater.once("update-available", (info) => {
         kernel.context.updateFinished = false;
         log(`update available — v${info.version}`, "loading", "updates");
     });
 
-    autoUpdater.on("download-progress", (progress) => {
-        log(`downloading update — ${Math.round(progress.percent)}`, "loading", "updates");
+    autoUpdater.once("download-progress", (progress) => {
+        log(`downloading update — ${Math.round(progress.percent)}%`, "loading", "updates");
     });
 
-    autoUpdater.on("update-downloaded", () => {
+    autoUpdater.once("update-downloaded", () => {
+        clearTimeout(timeout);
         log("update downloaded — installing", "success", "updates");
         setTimeout(() => {
             autoUpdater.quitAndInstall();
@@ -25,39 +41,29 @@ function updater(kernel, resolve){
         }, 1000);
     });
 
-    autoUpdater.on("update-not-available", () => {
+    autoUpdater.once("update-not-available", () => {
+        clearTimeout(timeout);
         kernel.context.updateFinished = true;
         log("up to date", "success", "updates");
         resolve();
         kernel.tryShow();
     });
 
-    autoUpdater.on("error", (err) => {
+    autoUpdater.once("error", (err) => {
+        clearTimeout(timeout);
         kernel.context.updateFinished = true;
         log(`updater error — ${err.message}`, "failed", "updates");
-        kernel.tryShow();
         resolve();
+        kernel.tryShow();
     });
 
-    if (app.isPackaged) {
-    
-        console.log("Production mode");
+    autoUpdater.setFeedURL({
+        provider: "github",
+        owner: "lorik440",
+        repo: "Code.HP"
+    });
 
-        autoUpdater.setFeedURL({
-            provider: 'github',
-            owner: 'lorik440',
-            repo: 'Code.HP'
-        });
-
-        autoUpdater.checkForUpdates();
-
-    } else {
-
-        kernel.context.updateFinished = true;
-        log("development mode — skipping updates", "success", "updates");
-        kernel.tryShow();
-        resolve();
-    }
+    autoUpdater.checkForUpdates();
 }
 
-module.exports =updater;
+module.exports = updater;

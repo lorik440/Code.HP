@@ -1,5 +1,4 @@
-const { BrowserWindow, ipcMain } = require("electron");
-const path = require("path");
+const { BrowserWindow, ipcMain, path } = require("../deps/electron.deps.js");
 
 function createWindow(kernel, resolve) {
 
@@ -17,7 +16,7 @@ function createWindow(kernel, resolve) {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            webSecurity: true,
+            webSecurity: false,
             allowRunningInsecureContent: false
         }
     });
@@ -25,11 +24,11 @@ function createWindow(kernel, resolve) {
     kernel.context.mainWindow = win;
 
     win.loadFile(
-        path.join(__dirname, "..",".." ,"renderer", "index.html")
+        path.join(__dirname, "..", "..", "renderer", "mainWindow", "mainWindow.html")
     );
 
     ipcMain.once("editor-ready", () => {
-        kernel.context.editorReady = true; 
+        kernel.context.editorReady = true;
         kernel.tryShow();
         resolve();
     });

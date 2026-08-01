@@ -11,7 +11,6 @@
     border-radius: 5px;
     padding: 8px;
     cursor: pointer;
-
 }
 .message:hover{
     border: 2px solid var(--alert-confirm-color);
@@ -54,8 +53,6 @@
     transition: opacity 0.5s ease, visibility 0s linea 1.5s; 
 }
 
-
-/*styleing of the elements*/
 .sidebar, .mainPanel{
     background-color:var(--bg-container);
     padding: 3px;
@@ -71,7 +68,7 @@
     padding: 0;
     background-color: var(--editor-bg);
     border-top-left-radius: 2px;
-    border-bottom-left-radius:2px ;
+    border-bottom-left-radius:2px;
 }
 .topSidebar{
     height: 25px;
@@ -91,10 +88,9 @@
     margin: 0;
     min-height: 30px;
     background-color: var(--bg-container);
-    border-bottom:1px solid ;
+    border-bottom:1px solid;
     border-color: var(--border-color);
 }
-/*toggel between add snippet panel and default panel */
 
 .hidden{
     display: none;
@@ -111,8 +107,6 @@
     opacity: 0.5;
 }
 
-/* add snippet mode rop panel */
-
 .addSnippetPanel{
     justify-content: start;
     gap: 5px;
@@ -122,13 +116,13 @@
 }
 
 .addSnippetName{
-    width:130px ;
+    width:130px;
     font-size: small;
 }
 
 .addSnippetLanguage{
     font-size: small;
-    width:100px ;
+    width:100px;
 }
 
 .dropdown .options{
@@ -143,7 +137,6 @@
 .dropdown:focus-within .options{
     display: block;
     z-index: 2;
-
 }
 .option:hover{
     color: rgb(14, 116, 29);
@@ -156,7 +149,6 @@
     background-color: #0A120A;
 }
 
-/*tabs in sidebar*/
 .tabSpace{
     display: flex;
     flex-direction:column;
@@ -184,16 +176,6 @@
     border-left: 1px solid var(--text-secondery);
 }
 
-.snippetEditWindow{
- position: absolute;
- text-align: center;
- width: 40px;
- height: 30px;
- left: 100px;
- background-color: var(--editor-bg);
- z-index: 3;
-
-}
 .snippetName {
     flex: 1;
     text-align: left;
