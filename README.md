@@ -21,7 +21,7 @@
 ### Main Window
 
 <p align="center">
-  <img src="app/assets/screenshots/main_window.png" width="850">
+  <img src="app/assets/screenshots/main_window.png" width="550">
 </p>
 
 ---
@@ -29,7 +29,7 @@
 ### Creating a Snippet
 
 <p align="center">
-  <img src="app/assets/screenshots/add_snippet.png" width="850">
+  <img src="app/assets/screenshots/add_snippet.png" width="550">
 </p>
 
 ---
@@ -37,7 +37,7 @@
 ### Monaco Editor
 
 <p align="center">
-  <img src="app/assets/screenshots/monaco_editor.png" width="850">
+  <img src="app/assets/screenshots/monaco_editor.png" width="550">
 </p>
 
 ---
@@ -45,7 +45,7 @@
 ### Splash Screen
 
 <p align="center">
-  <img src="app/assets/screenshots/splash_sceen.png" width="850">
+  <img src="app/assets/screenshots/splash_sceen.png" width="550">
 </p>
 
 ---
@@ -141,9 +141,7 @@ npm run build
 
 ---
 
-## 📋 Roadmap
-
-See the project's roadmap here:
+See the project's roadmap and license here:
 
 **[TODO.md](TODO.md)**
 
@@ -151,8 +149,8 @@ See the project's roadmap here:
 
 ## 📄 License
 
-MIT License
-
+**[MIT License](LICENSE)**
+ 
 ---
 
 **Version:** 1.3.0
