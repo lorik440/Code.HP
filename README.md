@@ -18,6 +18,15 @@
 
 ## 📸 Gallery
 
+---
+
+### Splash Screen
+
+<p align="center">
+  <img src="app/assets/screenshots/splash_sceen.png" width="550">
+</p>
+
+---
 ### Main Window
 
 <p align="center">
@@ -40,15 +49,6 @@
   <img src="app/assets/screenshots/monaco_editor.png" width="550">
 </p>
 
----
-
-### Splash Screen
-
-<p align="center">
-  <img src="app/assets/screenshots/splash_sceen.png" width="550">
-</p>
-
----
 
 ## 🚀 Installation
 
