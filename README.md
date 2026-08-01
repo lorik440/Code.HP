@@ -14,7 +14,20 @@ Double-click the desktop shortcut "Code.HP" to open the app.
 - Real-time search functionality
 - Dark theme with green accents
 
-## 📁 File Structure
+## � Screenshots
+A few snapshots of Code.HP in action:
+
+<p align="center">
+  <img src="app/assets/screenshots/main_window.png" alt="Code.HP main window" width="400" />
+  <img src="app/assets/screenshots/add_snippet.png" alt="Add snippet view" width="400" />
+</p>
+
+<p align="center">
+  <img src="app/assets/screenshots/monaco_editor.png" alt="Monaco editor view" width="400" />
+  <img src="app/assets/screenshots/splash_sceen.png" alt="Splash screen" width="400" />
+</p>
+
+## �📁 File Structure
 - `snippets/` - Your code snippets are stored here
 - `Code.HP.vbs` - Silent launcher script
 - `create-desktop-shortcut.ps1` - Creates desktop shortcut
@@ -27,4 +40,4 @@ for more information on upcoming features or bug fixes, see todo list here:
 [TODO List](TODO.md)
 
 ---
-**Version**: 1.2.5 | **Built with**: Electron + Monaco Editor
+**Version**: 1.3.0 | **Built with**: Electron + Monaco Editor
