@@ -3,12 +3,12 @@
 
 ## Improvements
 - [x] reduece the number of eventlisteners in main.js
-- [x] organize the code in main.js 
-- [] improve IPS structure
-- [] create kernel.js to controle the workflow of the app 
-- [] organize the file structure in the renderer folder
+- [] organize the code in main.js 
+- [] organize the file structure in the renderer enviroment
+- [] improve IPC structure
+- [x] create kernel.js to controle the workflow of the app 
 
 ## Features
-- [] add animations and tweek ui to fit the theme more .nr1
+- [] add animations and tweek ui to fit the theme more 
     - [x] styled flash window/ added animation and structured the html page...
 - [] add snippets folders for better organization

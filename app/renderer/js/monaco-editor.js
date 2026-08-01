@@ -6,7 +6,7 @@ import {
     pathToFileURL,
     ipcRenderer,
     fs
-} from "../../main/electron-deps.js"
+} from "../../main/deps/render-deps.js"
 
 import { registerCustomLanguages } from "./language-definitions.js";
 

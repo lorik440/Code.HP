@@ -1,12 +1,13 @@
-ipcRenderer.send("splash-message","loader.js");
+
 
 import{
     nodeRequire,
     path,
     fs,
     ipcRenderer
-}from "../../main/electron-deps.js"
+}from "../../main/deps/render-deps.js"
 
+ipcRenderer.send("splash-message","loader.js");
 (() => {
 
 function loadComponents(containerId, fileName) {

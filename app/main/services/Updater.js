@@ -1,96 +1,63 @@
-const { autoUpdater } = require("electron-updater");
+const { log } = require("./Logger.js");
 const { app } = require("electron");
-class Updater {
 
-    async check(splash) {
+function updater(kernel, resolve){
+    const { autoUpdater } = require("electron-updater");
 
-        return new Promise((resolve, reject) => {
+    autoUpdater.on("checking-for-update", () => {
+        log("checking for updates", "loading", "updates");
+    });
 
-            if(!app.isPackaged){
-                splash.sendMessage(
-                    "Development mode",
-                    "success"
-                )
-                resolve();
-                return;
-            }
+    autoUpdater.on("update-available", (info) => {
+        kernel.context.updateFinished = false;
+        log(`update available — v${info.version}`, "loading", "updates");
+    });
 
-            autoUpdater.setFeedURL({
-                provider: "github",
-                owner: "lorik440",
-                repo: "Code.HP"
-            });
+    autoUpdater.on("download-progress", (progress) => {
+        log(`downloading update — ${Math.round(progress.percent)}`, "loading", "updates");
+    });
 
-            autoUpdater.on("checking-for-update", () => {
+    autoUpdater.on("update-downloaded", () => {
+        log("update downloaded — installing", "success", "updates");
+        setTimeout(() => {
+            autoUpdater.quitAndInstall();
+            resolve();
+        }, 1000);
+    });
 
-                splash.sendMessage(
-                    "Checking for updates",
-                    "loading"
-                );
+    autoUpdater.on("update-not-available", () => {
+        kernel.context.updateFinished = true;
+        log("up to date", "success", "updates");
+        resolve();
+        kernel.tryShow();
+    });
 
-            });
+    autoUpdater.on("error", (err) => {
+        kernel.context.updateFinished = true;
+        log(`updater error — ${err.message}`, "failed", "updates");
+        kernel.tryShow();
+        resolve();
+    });
 
-            autoUpdater.on("update-available", (info) => {
+    if (app.isPackaged) {
+    
+        console.log("Production mode");
 
-                splash.sendMessage(
-                    `Downloading update ${info.version}`,
-                    "loading"
-                );
-
-            });
-
-            autoUpdater.on("download-progress", (progress) => {
-
-                splash.sendMessage(
-                    `Downloading ${Math.round(progress.percent)}%`,
-                    "loading"
-                );
-
-            });
-
-            autoUpdater.on("update-downloaded", () => {
-
-                splash.sendMessage(
-                    "Installing update",
-                    "success"
-                );
-
-                setTimeout(() => {
-
-                    autoUpdater.quitAndInstall();
-
-                }, 1000);
-
-            });
-
-            autoUpdater.on("update-not-available", () => {
-
-                splash.sendMessage(
-                    "Code.HP is up to date",
-                    "success"
-                );
-
-                resolve();
-
-            });
-
-            autoUpdater.on("error", (err) => {
-
-                splash.sendMessage(
-                    "Update failed, starting app",
-                    "failed"
-                );
-
-                reject(err);
-
-            });
-
-            autoUpdater.checkForUpdates();
-
+        autoUpdater.setFeedURL({
+            provider: 'github',
+            owner: 'lorik440',
+            repo: 'Code.HP'
         });
 
-    }
+        autoUpdater.checkForUpdates();
 
+    } else {
+
+        kernel.context.updateFinished = true;
+        log("development mode — skipping updates", "success", "updates");
+        kernel.tryShow();
+        resolve();
+    }
 }
 
-module.exports = new Updater();
+module.exports =updater;

@@ -1,4 +1,4 @@
-ipcRenderer.send("splash-message","main.js");
+
 
 import {
     nodeRequire,
@@ -6,7 +6,7 @@ import {
     pathToFileURL,
     ipcRenderer,
     fs
-} from "../../main/electron-deps.js"
+} from "../../main/deps/render-deps.js"
 
 import {
     startMonacoEditor,
@@ -16,11 +16,10 @@ import {
     hideEditorView
 } from "./monaco-editor.js";
 
-const storage = require("../services/Storage");
-
-const folder = storage.getSnippetsDir();
+ipcRenderer.send("splash-message","main.js");
 
 (() => {
+
 
 let snippetsDir;
 
