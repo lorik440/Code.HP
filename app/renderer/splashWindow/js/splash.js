@@ -34,9 +34,14 @@ ipcRenderer.on("splash-message", (_, msg) => {
     if (step && stepLines.has(step)) {
 
         const entry = stepLines.get(step);
-        entry.status.textContent = status === "success" ? "[SUCCESS]" : `[${status}]`;
-        entry.status.classList.remove("hidden");
-        entry.spinner.remove();
+
+        if (status !== "loading") {
+            entry.status.textContent = status === "success" ? "[SUCCESS]" : `[${status}]`;
+            entry.status.classList.remove("hidden");
+            entry.spinner.remove();
+        } else {
+            entry.text.textContent = message;
+        }
 
     } else {
 
@@ -67,7 +72,7 @@ ipcRenderer.on("splash-message", (_, msg) => {
         output.appendChild(line);
 
         if (step) {
-            stepLines.set(step, { status: statusEl, spinner });
+            stepLines.set(step, { status: statusEl, spinner, text });
         }
 
         output.scrollTop = output.scrollHeight;

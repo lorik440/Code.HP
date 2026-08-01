@@ -233,7 +233,7 @@ function deleteSnippet() {
 }
 
 startMonacoEditor(() => {
-    ipcRenderer.send("editor-ready");
+    ipcRenderer.send("editor-read");
 });
 
 })();

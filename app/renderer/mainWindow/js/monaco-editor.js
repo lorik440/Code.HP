@@ -1,9 +1,8 @@
+import { ipcRenderer } from "../../../main/deps/render-deps.js";
 import { registerCustomLanguages } from "./language-definitions.js";
 
-export function startMonacoEditor(onReady) {
-    const scriptTag = document.querySelector('script[src*="monaco-editor"]');
-    const loaderSrc = scriptTag ? scriptTag.src : '';
-    const monacoBaseUrl = loaderSrc.substring(0, loaderSrc.lastIndexOf('/vs/') + 4);
+export async function startMonacoEditor(onReady) {
+    const monacoBaseUrl = await ipcRenderer.invoke("get-monaco-base-url");
 
     window.MonacoEnvironment = { baseUrl: monacoBaseUrl };
 

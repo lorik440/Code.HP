@@ -3,7 +3,7 @@ const {
     log
 } = require("./services/Logger.js");
 
-const { getAppVersion } = require("./services/IpcHandler.js");
+const { getAppVersion, getMonacoBaseUrl } = require("./services/IpcHandler.js");
 const setStoragePath =require("./services/StoragePath.js")
 const createSplash =require("./windows/SplashWindow.js");
 const updater = require("./services/Updater.js");
@@ -29,6 +29,7 @@ class Kernel {
         await this.runStep("confirming app version",
             async()=>{
                 getAppVersion();
+                getMonacoBaseUrl();
             }
         )
 
@@ -50,7 +51,7 @@ class Kernel {
             }, false
         )
 
-        await this.runStep("updates",
+        await this.runStep("updater",
             async()=>{
                 await new Promise((resolve) => {
                     updater(this, resolve);

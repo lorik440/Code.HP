@@ -1,6 +1,9 @@
 # dependencies
 node_modules/
 
+#githtub
+
+
 # build output
 dist/
 

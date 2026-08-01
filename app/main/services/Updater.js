@@ -24,17 +24,17 @@ function updater(kernel, resolve) {
     });
 
     autoUpdater.once("update-available", (info) => {
+        clearTimeout(timeout);
         kernel.context.updateFinished = false;
         log(`update available — v${info.version}`, "loading", "updates");
     });
 
-    autoUpdater.once("download-progress", (progress) => {
-        log(`downloading update — ${Math.round(progress.percent)}%`, "loading", "updates");
+    autoUpdater.on("download-progress", (progress) => {
+        log(`downloading — ${Math.round(progress.percent)}%`, "loading", "updates");
     });
 
     autoUpdater.once("update-downloaded", () => {
-        clearTimeout(timeout);
-        log("update downloaded — installing", "success", "updates");
+        log("installing update", "success", "updates");
         setTimeout(() => {
             autoUpdater.quitAndInstall();
             resolve();

@@ -2,6 +2,9 @@
 - [x] fix deleteSnippet() function in monaco-editor.js not loading showAlert() function in notify.js
 - [x] fix: normalize Kernel.js filename casing
 - [x] fix: removed loader.js retracted using old architecture for the mainWindow.html
+- [x] fix: resolve monaco path via IPC, fix splash loading status display, improve updater flow and timeout handling
+
+
 
 ## Improvements
 - [x] reduece the number of eventlisteners in main.js
