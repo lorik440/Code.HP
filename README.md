@@ -113,16 +113,6 @@ Code.HP/
 ├── scripts/
 │   └── Code.HP.vbs
 └── snippets/
-    ├── Bootstrap-links-4.html
-    ├── card-container-9.css
-    ├── drag-and-drop-6.js
-    ├── electron-main-3.js
-    ├── git-commands-cheat-sheet-13.txt
-    ├── hotkey-setup-electron-2.js
-    ├── liquid-glass-effect-10.css
-    ├── OOP-detyra-11.cs
-    ├── OOP-detyra-sutend-12.cs
-    └── supabase_client-14.py
 
 ---
 
