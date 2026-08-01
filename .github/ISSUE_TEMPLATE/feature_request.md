@@ -1,6 +1,6 @@
 ---
 name: Feature request
-description: Suggest an idea or improvement
+description: Suggest a new feature, enhancement, or improvement idea for Code.HP.
 title: "[FEATURE] "
 labels: enhancement
 assignees: ''

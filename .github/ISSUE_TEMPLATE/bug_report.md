@@ -1,6 +1,6 @@
 ---
 name: Bug report
-description: Report a bug or unexpected behavior
+description: Report a problem, crash, or unexpected behavior in Code.HP.
 title: "[BUG] "
 labels: bug
 assignees: ''
