@@ -23,7 +23,7 @@
     "build": {
         "appId": "com.lorik.code-hp",
         "productName": "Code.HP",
-        "compression": "normal",
+        "compression": "maximum",
         "publish": [
             {
                 "provider": "github",
@@ -34,8 +34,25 @@
         "directories": {
             "output": "dist"
         },
+        "asar": true,
         "files": [
-           "**/*"
+            "app/**/*",
+            "node_modules/monaco-editor/min/**/*",
+            "node_modules/electron-updater/**/*",
+            "node_modules/electron-updater/node_modules/**/*",
+            "!node_modules/monaco-editor/min/vs/basic-languages/**/*",
+            "!node_modules/monaco-editor/min/vs/language/typescript/**/*",
+            "!node_modules/monaco-editor/min/vs/language/json/**/*",
+            "!node_modules/monaco-editor/min/vs/language/css/**/*",
+            "!node_modules/monaco-editor/min/vs/language/html/**/*",
+            "!**/*.map",
+            "!**/*.md",
+            "!**/*.xml",
+            "!**/test/**",
+            "!**/tests/**",
+            "!**/__tests__/**",
+            "!.github/**/*",
+            "!scripts/**/*"
         ],
         "extraResources": [
             {
