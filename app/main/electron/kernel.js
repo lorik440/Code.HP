@@ -1,118 +1,130 @@
+const {
+    setSplashWindow,
+    log
+} = require("../services/Logger.js");
+
+const { getAppVersion, getMonacoBaseUrl } = require("../services/IpcHandler.js");
+const setStoragePath =require("../services/StoragePath.js")
+const createSplash =require("../windows/SplashWindow.js");
+const updater = require("../services/Updater.js");
+const setShortcut =require("../services/Shortcut.js");
+const createWindow =require("../windows/MainWindow.js");
+const tryShowMainWindow = require("../services/Launch.js");
+
 class Kernel {
 
     constructor(){
+        this.context ={
+            mainWindow:null,
+            splashWindow:null,
 
-        this.modules = {};
-
+            updateFinished:false,
+            editorReady:false
+        }
     }
 
+    //
+    async start(){
 
-    initialize(modules){
+        await this.runStep("confirming app version",
+            async()=>{
+                getAppVersion();
+                getMonacoBaseUrl();
+            }
+        )
 
-        this.modules = modules;
+        await this.runStep("splash window",
+            async()=>{
+                this.context.splashWindow=await createSplash();
+                
+                setSplashWindow(
+                    this.context.splashWindow
+                );
+            }
+           
+        )
 
+        await this.runStep("initialize storage path",
+            async()=>{
+                setStoragePath();
+                
+            }, false
+        )
+
+        await this.runStep("updater",
+            async()=>{
+                await new Promise((resolve) => {
+                    updater(this, resolve);
+                });
+            }
+        )
+        await this.runStep("activating hotkey",
+            async()=>{
+                setShortcut(this);
+
+            }
+        )
+        await this.runStep("editor ready", async () => {
+            await new Promise((resolve) => {
+                createWindow(this, resolve);
+            });
+        });
+
+        log("Code.HP ready", "success", "launch");
+
+    
     }
-
-
-    log(message, status){
-
-        console.log(
-            `[Kernel] ${message} - ${status}`
+    //
+    async runStep(name, action, required=true){
+        log(
+            `${name}`,
+            "loading",
+            name
         );
 
-        if(this.modules.splash){
+        try {
+           await action();
 
-            this.modules.splash.sendMessage(
-                message,
-                status
+            log(
+                `${name}`,
+                "success",
+                name
             );
+
+        } catch(error) {
+
+            if(!required){
+                log(
+                    `${name} — ${error.message}`,
+                    "failed",
+                    name
+                );
+            }
+
+            if(required){
+                log(`${name} — required module failed`, "failed", name);
+                throw error;
+            }
 
         }
 
     }
 
 
-    async runStep(name, task){
+    tryShow(){
+        tryShowMainWindow(this);
+    }
 
-        this.log(
-            name,
-            "loading"
-        );
-
+    shutdown(){
+        log("kenral shutdown", "loading");
         try{
 
-            await task();
+        }catch{
 
-            this.log(
-                name,
-                "success"
-            );
-
-
-        }catch(error){
-
-            this.log(
-                `${name}: ${error.message}`,
-                "failed"
-            );
-
-            throw error;
         }
-
-    }
-
-
-
-    async boot(){
-
-    try{
-
-
-        await this.runStep(
-            "Creating splash",
-            ()=>this.modules.splash.create()
-        );
-
-
-        await this.runStep(
-            "Initializing storage",
-            ()=>this.modules.storage.initialize()
-        );
-
-
-        await this.runStep(
-            "Creating main window",
-            ()=>this.modules.mainWindow.create()
-        );
-
-
-        await this.runStep(
-            "Checking updates",
-            ()=>this.modules.updater.check(
-                this.modules.splash
-            )
-        );
-
-
-        this.log(
-            "System ready",
-            "success"
-        );
-
-
-    }catch(error){
-
-        this.log(
-            "Kernel stopped: " + error.message,
-            "failed"
-        );
-
-        console.error(error);
-
     }
 
 }
+ 
+module.exports= new Kernel();
 
-}
-
-module.exports = new Kernel();

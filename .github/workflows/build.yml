@@ -25,9 +25,29 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Build and publish
-              run: npx electron-builder --win --publish always
+            - name: Build Windows artifacts
+              run: npx electron-builder --win --publish never
+
+            - name: Publish GitHub release
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  EP_RELEASE_BODY_PATH: TODO.md
-                  EP_DRAFT: false
+              run: |
+                  $version = node -p "require('./package.json').version"
+                  $tag = "${{ github.ref_name }}"
+                  $releaseTitle = "Code.HP v$version"
+                  $assets = Get-ChildItem "dist" -File | Where-Object {
+                      $_.Name -like "*.exe" -or $_.Name -like "*.yml" -or $_.Name -like "*.yaml" -or $_.Name -like "*.blockmap"
+                  } | ForEach-Object { $_.FullName }
+
+                  if (-not $assets) {
+                      Write-Error "No release artifacts were generated in dist/"
+                      exit 1
+                  }
+
+                  gh release view $tag --repo "${{ github.repository }}" --json tagName 2>$null | Out-Null
+                  if ($LASTEXITCODE -eq 0) {
+                      gh release upload $tag $assets --repo "${{ github.repository }}" --clobber
+                      gh release edit $tag --repo "${{ github.repository }}" --title $releaseTitle --notes-file TODO.md --draft=false
+                  } else {
+                      gh release create $tag $assets --repo "${{ github.repository }}" --title $releaseTitle --notes-file TODO.md --target "${{ github.sha }}" --verify-tag --draft=false
+                  }

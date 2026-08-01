@@ -105,6 +105,9 @@ export async function startMonacoEditor(onReady) {
         });
 
         if (onReady) onReady();
+    }, function (error) {
+        console.error('Monaco failed to initialize:', error);
+        if (onReady) onReady();
     });
 }
 

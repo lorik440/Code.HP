@@ -1,9 +1,9 @@
 {
     "name": "code-hp",
     "productName": "Code.HP",
-    "version": "1.2.8",
+    "version": "1.2.9",
     "description": "Code snippet manager with retro-futuristic alien UI",
-    "main": "app/main/electron-main.js",
+    "main": "app/main/electron/electron-main.js",
     "author": "lorik",
     "license": "MIT",
 
@@ -40,11 +40,6 @@
             "node_modules/monaco-editor/min/**/*",
             "node_modules/electron-updater/**/*",
             "node_modules/electron-updater/node_modules/**/*",
-            "!node_modules/monaco-editor/min/vs/basic-languages/**/*",
-            "!node_modules/monaco-editor/min/vs/language/typescript/**/*",
-            "!node_modules/monaco-editor/min/vs/language/json/**/*",
-            "!node_modules/monaco-editor/min/vs/language/css/**/*",
-            "!node_modules/monaco-editor/min/vs/language/html/**/*",
             "!**/*.map",
             "!**/*.md",
             "!**/*.xml",

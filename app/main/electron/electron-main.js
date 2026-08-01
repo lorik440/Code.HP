@@ -1,7 +1,7 @@
-const { app, globalShortcut } = require("./deps/electron.deps.js");
+const { app, globalShortcut } = require("../deps/electron.deps.js");
 
 const Kernel = require("./Kernel.js");
-const { log } = require("./services/Logger.js");
+const { log } = require("../services/Logger.js");
 
 app.whenReady().then(async () => {
     log("starting kernel");
