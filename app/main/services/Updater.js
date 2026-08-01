@@ -20,7 +20,6 @@ function updater(kernel, resolve) {
     }, 30000);
 
     autoUpdater.once("checking-for-update", () => {
-        log("checking for updates", "loading", "updates");
     });
 
     autoUpdater.once("update-available", (info) => {

@@ -4,6 +4,13 @@ import { registerCustomLanguages } from "./language-definitions.js";
 export async function startMonacoEditor(onReady) {
     const monacoBaseUrl = await ipcRenderer.invoke("get-monaco-base-url");
 
+    await new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = monacoBaseUrl + 'loader.js';
+        script.onload = resolve;
+        document.head.appendChild(script);
+    });
+
     window.MonacoEnvironment = { baseUrl: monacoBaseUrl };
 
     require.config({ paths: { vs: monacoBaseUrl } });
