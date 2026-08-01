@@ -2,10 +2,6 @@
 
 > A retro-futuristic code snippet manager built with Electron and Monaco Editor.
 
-<p align="center">
-  <img src="app/assets/screenshots/main_window.png" width="900" alt="Code.HP Main Window">
-</p>
-
 ---
 
 ## ✨ Features
@@ -49,7 +45,7 @@
 ### Splash Screen
 
 <p align="center">
-  <img src="app/assets/screenshots/splash_screen.png" width="850">
+  <img src="app/assets/screenshots/splash_sceen.png" width="850">
 </p>
 
 ---
@@ -74,6 +70,7 @@ Code.HP/
 │   ├── assets/
 │   │   ├── fonts/
 │   │   │   └── vt323.css
+│   │   ├── icon.ico
 │   │   └── screenshots/
 │   ├── main/
 │   │   ├── deps/
@@ -116,7 +113,17 @@ Code.HP/
 ├── scripts/
 │   └── Code.HP.vbs
 └── snippets/
-   
+    ├── Bootstrap-links-4.html
+    ├── card-container-9.css
+    ├── drag-and-drop-6.js
+    ├── electron-main-3.js
+    ├── git-commands-cheat-sheet-13.txt
+    ├── hotkey-setup-electron-2.js
+    ├── liquid-glass-effect-10.css
+    ├── OOP-detyra-11.cs
+    ├── OOP-detyra-sutend-12.cs
+    └── supabase_client-14.py
+
 ---
 
 ## 🛠️ Development
