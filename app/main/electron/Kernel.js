@@ -20,6 +20,7 @@ class Kernel {
 
             updateFinished:false,
             editorReady:false
+
         }
     }
 

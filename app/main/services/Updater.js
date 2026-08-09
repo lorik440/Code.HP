@@ -6,7 +6,7 @@ function updater(kernel, resolve) {
 
     if (!app.isPackaged) {
         kernel.context.updateFinished = true;
-        log("development mode — skipping updates", "success", "updates");
+        log("development mode 'skipping updates'", "success", "updates");
         resolve();
         kernel.tryShow();
         return;

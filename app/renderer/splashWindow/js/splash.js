@@ -2,7 +2,7 @@ import {
     ipcRenderer,
 } from "../../../main/deps/render-deps.js"
 
-ipcRenderer.send("splash-message", { message: "splash window", status: "loading", step: "splash" });
+
 
 (() => {
 

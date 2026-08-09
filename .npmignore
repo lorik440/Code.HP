@@ -1,0 +1,49 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Build / output
+dist/
+*.tgz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git / editor
+.git
+.gitignore
+.vscode/
+
+# CI / GitHub
+.github/
+
+# Project docs and non-runtime files
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+SECURITY.md
+TODO.md
+scripts/
+snippets/
+
+# App-specific non-runtime assets
+app/assets/screenshots/
+
+# Tests
+test/
+tests/
+__tests__/
+
+# Environment files
+.env
+.env.*
+
+# Logs and maps
+*.log
+*.map
+
+# Misc
+*.md

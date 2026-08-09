@@ -13,7 +13,7 @@ async function createSplash() {
         alwaysOnTop: true,
         autoHideMenuBar: true,
         backgroundColor: "#121715",
-        icon: path.join(__dirname, "..", "..", "assets", "icon.ico"),
+        icon: path.join(__dirname, "..", "..", "assets","icons", "AppLogo.ico"),
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false

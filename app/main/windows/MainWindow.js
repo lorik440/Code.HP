@@ -8,7 +8,7 @@ function createWindow(kernel, resolve) {
         minWidth: 480,
         minHeight: 380,
         show: false,
-        icon: path.join(__dirname, "..", "..", "assets", "icon.ico"),
+        icon: path.join(__dirname, "..", "..", "assets", "icons","AppLogo.ico"),
         alwaysOnTop: true,
         autoHideMenuBar: true,
         resizable: true,

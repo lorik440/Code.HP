@@ -161,8 +161,7 @@
 .tab {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
+    padding: 7px 8px;
     background-color: var(--bg-container);
     border-radius: 2px;
     cursor: pointer;
@@ -185,4 +184,22 @@
     margin-left: 15px;
     font-size: 0.8em;
     opacity: 0.7;
+}
+
+.folderIcon{
+    width: 16px;
+    height: 16px;
+    margin-right: 5px; 
+    background-color:var(--alert-confirm-color);
+    mask: url('../../../assets/icons/folder.svg') center/contain no-repeat;
+    -webkit-mask: url('../../../assets/icons/folder.svg') center/contain no-repeat;    
+}
+
+.folderIconOpened{
+    width: 16px;
+    height: 16px;
+    margin-right: 5px; 
+    background-color:var(--alert-confirm-color);
+    mask: url('../../../assets/icons/folder-opened.svg') center/contain no-repeat;
+    -webkit-mask: url('../../../assets/icons/folder-opened.svg') center/contain no-repeat;
 }

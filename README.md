@@ -2,7 +2,7 @@
 
 > A retro-futuristic code snippet manager built with Electron and Monaco Editor.
 
----
+
 
 ## ✨ Features
 
@@ -18,7 +18,7 @@
 
 ## 📸 Gallery
 
----
+
 
 ### Splash Screen
 

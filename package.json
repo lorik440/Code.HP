@@ -1,23 +1,22 @@
 {
     "name": "code-hp",
     "productName": "Code.HP",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "description": "Code snippet manager with retro-futuristic alien UI",
-    "main": "app/main/electron/electron-main.js",
+    "main": "app/main/electron/main.js",
     "author": "lorik",
     "license": "MIT",
-
     "repository": {
         "type": "git",
-        "url":"https://github.com/lorik440/Code.HP.git"
+        "url": "https://github.com/lorik440/Code.HP.git"
     },
     "scripts": {
         "start": "electron .",
         "dev": "electronmon .",
-        "pack":"electron-builder --dir && powershell -NoProfile -Command Start-Process .\\dist\\win-unpacked\\Code.HP.exe",
+        "pack": "electron-builder --dir && powershell -NoProfile -Command Start-Process .\\dist\\win-unpacked\\Code.HP.exe",
         "clean": "rimraf dist",
         "build": "electron-builder --win",
-        "release":"npm run clean && electron-builder --win --publish always",
+        "release": "npm run clean && electron-builder --win --publish always",
         "dist": "npm run release"
     },
     "build": {
@@ -47,7 +46,10 @@
             "!**/tests/**",
             "!**/__tests__/**",
             "!.github/**/*",
-            "!scripts/**/*"
+            "!scripts/**/*",
+            "!LICENSE",
+            "!snippets/**/*",
+            "!app/assets/screenshots/**/*"
         ],
         "extraResources": [
             {
@@ -67,7 +69,6 @@
             ],
             "icon": "app/assets/icon.ico"
         },
-
         "nsis": {
             "oneClick": true,
             "allowToChangeInstallationDirectory": false,
@@ -82,6 +83,7 @@
         "rimraf": "^6.1.3"
     },
     "dependencies": {
+        "better-sqlite3": "^13.0.3",
         "electron-updater": "^6.8.9",
         "monaco-editor": "^0.53.0"
     }
