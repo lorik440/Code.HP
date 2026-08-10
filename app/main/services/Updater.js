@@ -26,7 +26,7 @@ function updater(kernel, resolve) {
         clearTimeout(timeout);
         kernel.context.updateFinished = false;
         log(`update available — v${info.version}`, "loading", "updates");
-        autioUpdater.downloadUpdate();
+        autoUpdater.downloadUpdate();
     });
 
     autoUpdater.on("download-progress", (progress) => {
@@ -37,7 +37,6 @@ function updater(kernel, resolve) {
         log("installing update", "success", "updates");
         setTimeout(() => {
             autoUpdater.quitAndInstall();
-            resolve();
         }, 1000);
     });
 
@@ -55,12 +54,6 @@ function updater(kernel, resolve) {
         log(`updater error — ${err.message}`, "failed", "updates");
         resolve();
         kernel.tryShow();
-    });
-
-    autoUpdater.setFeedURL({
-        provider: "github",
-        owner: "lorik440",
-        repo: "Code.HP"
     });
 
     autoUpdater.checkForUpdates();
