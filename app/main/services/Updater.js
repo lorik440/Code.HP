@@ -20,6 +20,7 @@ function updater(kernel, resolve) {
     }, 30000);
 
     autoUpdater.once("checking-for-update", () => {
+        log("checking for updates", "loading", "updates");
     });
 
     autoUpdater.once("update-available", (info) => {
@@ -34,7 +35,7 @@ function updater(kernel, resolve) {
     });
 
     autoUpdater.once("update-downloaded", () => {
-        log("installing update", "success", "updates");
+        log( `downloaded — v${info.version}`, "success", "updates");
         setTimeout(() => {
             autoUpdater.quitAndInstall();
         }, 1000);
