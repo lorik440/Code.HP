@@ -25,18 +25,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Windows
-        run: npx electron-builder --win --publish never
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Code.HP ${{ github.ref_name }}
-          body_path: TODO.md
-          files: |
-            dist/*.exe
-            dist/*.blockmap
-            dist/latest.yml
+      - name: Build and publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --win --publish always

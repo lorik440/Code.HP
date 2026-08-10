@@ -15,6 +15,7 @@
 - [x] create kernel.js to controle the workflow of the app
 - [x] create a better structure for the renderer environment
 - [x] module import/export structure for better code management
+- [] verify build after release (workflow).
 - [] improve IPC structure
 - [] organize the code in mainWindow.js 
 - [] make kernel be the source of truth for the logs shown in splash screen.
