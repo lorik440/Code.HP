@@ -26,6 +26,7 @@ function updater(kernel, resolve) {
         clearTimeout(timeout);
         kernel.context.updateFinished = false;
         log(`update available — v${info.version}`, "loading", "updates");
+        autioUpdater.downloadUpdate();
     });
 
     autoUpdater.on("download-progress", (progress) => {
