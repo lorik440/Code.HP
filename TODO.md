@@ -4,6 +4,7 @@
 - [x] fix: removed loader.js retracted using old architecture for the mainWindow.html
 - [x] fix: resolve monaco path via IPC, fix splash loading status display, improve updater flow and timeout handling
 - [] fix: app not updating.
+- [] fix: app icon not showing up.
 
 
 

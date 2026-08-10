@@ -67,7 +67,7 @@
                     ]
                 }
             ],
-            "icon": "app/assets/icon.ico"
+            "icon": "app/assets/icons/AppLogo.ico"
         },
         "nsis": {
             "oneClick": true,
