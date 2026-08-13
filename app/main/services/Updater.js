@@ -34,7 +34,7 @@ function updater(kernel, resolve) {
         log(`downloading — ${Math.round(progress.percent)}%`, "loading", "updates");
     });
 
-    autoUpdater.once("update-downloaded", () => {
+    autoUpdater.once("update-downloaded", (info) => {
         log( `downloaded — v${info.version}`, "success", "updates");
         setTimeout(() => {
             autoUpdater.quitAndInstall();
