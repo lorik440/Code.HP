@@ -1,7 +1,7 @@
 {
     "name": "code-hp",
     "productName": "Code.HP",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "description": "Code snippet manager with retro-futuristic alien UI",
     "main": "app/main/electron/main.js",
     "author": "lorik",
@@ -23,6 +23,13 @@
         "appId": "com.lorik.code-hp",
         "productName": "Code.HP",
         "compression": "maximum",
+        "publish": [
+            {
+                "provider": "github",
+                "owner": "lorik440",
+                "repo": "Code.HP"
+            }
+        ],
         "directories": {
             "output": "dist"
         },
@@ -51,7 +58,6 @@
             }
         ],
         "win": {
-            "signExecutable": false,
             "target": [
                 {
                     "target": "nsis",
