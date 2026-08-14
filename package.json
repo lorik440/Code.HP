@@ -27,7 +27,8 @@
             {
                 "provider": "github",
                 "owner": "lorik440",
-                "repo": "Code.HP"
+                "repo": "Code.HP",
+                "releaseType": "release"
             }
         ],
         "directories": {

@@ -14,38 +14,21 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # 1. Get the repository
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Install Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      # 3. Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 4. Build Code.HP
-      - name: Build Windows application
-        run: npx electron-builder --win --publish never
 
-      # 5. Create the published GitHub Release
-      # and upload all required updater files.
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Code.HP ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          generate_release_notes: true
-          files: |
-            dist/*.exe
-            dist/*.blockmap
-            dist/latest.yml
+      - name: Build and Publish Release
+        run: npx electron-builder --win --publish always
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

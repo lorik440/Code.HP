@@ -12,6 +12,10 @@ function updater(kernel, resolve) {
         return;
     }
 
+    // Disable auto-download so autoUpdater.downloadUpdate() works as expected
+    autoUpdater.autoDownload = false;
+    autoUpdater.autoInstallOnAppQuit = true;
+
     const timeout = setTimeout(() => {
         kernel.context.updateFinished = true;
         log("update check timed out", "failed", "updates");
@@ -27,7 +31,11 @@ function updater(kernel, resolve) {
         clearTimeout(timeout);
         kernel.context.updateFinished = false;
         log(`update available — v${info.version}`, "loading", "updates");
-        autoUpdater.downloadUpdate();
+        autoUpdater.downloadUpdate().catch((err) => {
+            log(`download error — ${err.message}`, "failed", "updates");
+            resolve();
+            kernel.tryShow();
+        });
     });
 
     autoUpdater.on("download-progress", (progress) => {
@@ -35,9 +43,10 @@ function updater(kernel, resolve) {
     });
 
     autoUpdater.once("update-downloaded", (info) => {
-        log( `downloaded — v${info.version}`, "success", "updates");
+        log(`downloaded — v${info.version}`, "success", "updates");
+        resolve(); // Resolve here so app startup can proceed or prompt the user
         setTimeout(() => {
-            autoUpdater.quitAndInstall();
+            autoUpdater.quitAndInstall(false, true);
         }, 1000);
     });
 
