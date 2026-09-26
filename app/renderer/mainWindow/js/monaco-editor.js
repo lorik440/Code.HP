@@ -1,5 +1,6 @@
 import { ipcRenderer } from "../../../main/deps/render-deps.js";
 import { registerCustomLanguages } from "./language-definitions.js";
+import { showToast } from "./alerts.js";
 
 export async function startMonacoEditor(onReady) {
     const monacoBaseUrl = await ipcRenderer.invoke("get-monaco-base-url");
@@ -142,4 +143,11 @@ export function zoomOut() {
 export function hideEditorView() {
     const editorView = document.querySelector('.editorView');
     if (editorView) editorView.style.display = 'none';
+}
+
+export function copyCode() {
+    if (window.editor) {
+        navigator.clipboard.writeText(window.editor.getValue());
+        showToast("copied");
+    }
 }

@@ -9,8 +9,21 @@ import {
     zoomIn,
     zoomOut,
     getMonacoLanguage,
-    hideEditorView
+    hideEditorView,
+    copyCode
 } from "./monaco-editor.js";
+
+import {
+    addSnippetMode,
+    deleteSnippet,
+    defaultsnippetmode,
+    saveSnippet
+}from "./snippetLogic.js";
+
+import {
+    showAlert,
+    showToast
+}from "./alerts.js"
 
 (() => {
 
@@ -98,8 +111,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const zoomInBtn = document.getElementById("zoomInBtn");
 
     if (addSnippetBtn) addSnippetBtn.addEventListener("click", () => { addSnippetMode(); hideEditorView(); });
-    if (saveSnippetBtn) saveSnippetBtn.addEventListener("click", () => saveSnippet());
-    if (deleteBtn) deleteBtn.addEventListener("click", () => showAlert("Continue to delete snippet: right click to cancel", deleteSnippet));
+    if (saveSnippetBtn) saveSnippetBtn.addEventListener("click", () => saveSnippet(snippetsDir));
+    if (deleteBtn) deleteBtn.addEventListener("click", () => showAlert("Continue to delete snippet: right click to cancel", ()=>deleteSnippet(snippetsDir)));
     if (copyBtn) copyBtn.addEventListener("click", () => copyCode());
     if (zoomOutBtn) zoomOutBtn.addEventListener("click", () => zoomOut());
     if (zoomInBtn) zoomInBtn.addEventListener("click", () => zoomIn());
@@ -116,121 +129,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         monaco.editor.setModelLanguage(window.editor.getModel(), getMonacoLanguage(option.dataset.value));
     });
 });
-
-function addSnippetMode() {
-    document.querySelector(".addSnippetPanel").classList.remove("hidden");
-    document.querySelector(".topMainPanel").classList.add("hidden");
-    window.editor.setValue("");
-}
-
-function defaultsnippetmode() {
-    document.querySelector(".addSnippetPanel").classList.add("hidden");
-    document.querySelector(".topMainPanel").classList.remove("hidden");
-}
-
-function saveSnippet() {
-    const SnippetNameInput = document.getElementById("SnippetNameInput");
-    const LanguageInput = document.getElementById("LanguageInput");
-    const snippetCode = window.editor.getValue();
-
-    if (!SnippetNameInput.value.trim() || !LanguageInput.value || !snippetCode.trim()) {
-        showAlert("Fill all the inputs");
-        return;
-    }
-
-    let fileName = SnippetNameInput.value.trim().replace(/\s+/g, "-");
-    let extension = LanguageInput.dataset.value;
-
-    const tabs = document.querySelectorAll('.tab');
-    const existingIds = Array.from(tabs).map(tab => parseInt(tab.dataset.id));
-    const lastId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
-
-    fileName += "-" + lastId;
-
-    if (extension === 'dockerfile') {
-        fileName += '';
-    } else if (extension) {
-        fileName += "." + extension;
-    } else {
-        fileName += ".txt";
-    }
-
-    fs.writeFileSync(path.join(snippetsDir, fileName), snippetCode, "utf8");
-    defaultsnippetmode();
-    showToast("snippet saved successfully");
-    setTimeout(() => location.reload(), 1000);
-}
-
-function showToast(text) {
-    const toast = document.createElement('div');
-    toast.textContent = text;
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 50%;
-        background: var(--alert-confirm-color);
-        border:1px solid var(--border-color);
-        color: white;
-        padding: 5px 8px;
-        font-size:small;
-        border-radius: 4px;
-        z-index: 1000;
-    `;
-    document.body.appendChild(toast);
-    setTimeout(() => document.body.removeChild(toast), 2000);
-}
-
-function showAlert(text, callback) {
-    const message = document.querySelector(".message");
-    const parentDiv = document.querySelector(".parent");
-
-    parentDiv.classList.add("blur");
-    message.textContent = text;
-    message.classList.remove("hidden");
-
-    message.addEventListener("click", () => {
-        parentDiv.classList.remove("blur");
-        message.textContent = "";
-        message.classList.add("hidden");
-        if (callback) callback();
-    }, { once: true });
-
-    message.addEventListener("contextmenu", () => {
-        parentDiv.classList.remove("blur");
-        message.textContent = "";
-        message.classList.add("hidden");
-    });
-}
-
-function copyCode() {
-    if (window.editor) {
-        navigator.clipboard.writeText(window.editor.getValue());
-        showToast("copied");
-    }
-}
-
-function deleteSnippet() {
-    const tabActive = document.querySelector(".tab.active");
-    if (!tabActive) { showToast("snippet not selected"); return; }
-
-    const snippetId = parseInt(tabActive.dataset.id);
-    const snippetName = tabActive.querySelector('.snippetName').textContent;
-    const snippetLanguage = tabActive.querySelector('.snippetLanguage').textContent;
-    const filePath = path.join(snippetsDir, `${snippetName}-${snippetId}.${snippetLanguage}`);
-
-    try {
-        fs.unlinkSync(filePath);
-        tabActive.remove();
-        if (window.editor) window.editor.setValue('');
-        const TMP_snippetName = document.getElementById("snippetName_TMP");
-        const TMP_language = document.getElementById("language_TMP");
-        if (TMP_snippetName) TMP_snippetName.textContent = '';
-        if (TMP_language) TMP_language.textContent = '';
-        showToast("snippet deleted successfully");
-    } catch (error) {
-        showToast("error deleting snippet");
-    }
-}
 
 startMonacoEditor(() => {
     ipcRenderer.send("editor-ready");
