@@ -25,3 +25,6 @@ Thumbs.db
 
 snippets/*
 
+codeql-db/
+codeql-results/
+scripts/codeql.ps1
