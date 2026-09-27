@@ -17,7 +17,8 @@
         "clean": "rimraf dist",
         "build": "electron-builder --win",
         "release": "npm run clean && electron-builder --win --publish always",
-        "dist": "npm run release"
+        "dist": "npm run release",
+        "codeql": "powershell -ExecutionPolicy Bypass -File scripts/codeql.ps1"
     },
     "build": {
         "appId": "com.lorik.code-hp",

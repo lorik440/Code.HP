@@ -1,3 +1,4 @@
+// monaco edditor 
 import { ipcRenderer } from "../../../main/deps/render-deps.js";
 import { registerCustomLanguages } from "./language-definitions.js";
 import { showToast } from "./alerts.js";

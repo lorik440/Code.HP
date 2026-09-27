@@ -23,8 +23,12 @@ Thumbs.db
 *.tmp
 *.temp
 
+# snippets directory
 snippets/*
 
-codeql-db/
-codeql-results/
+# CodeQL database and results
 scripts/codeql.ps1
+codeql-db/
+codeql-results.csv
+codeql-results/
+

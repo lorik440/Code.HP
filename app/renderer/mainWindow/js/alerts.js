@@ -1,3 +1,5 @@
+//Shows a toast notification
+
 export function showToast(text) {
     const toast = document.createElement('div');
     toast.textContent = text;
