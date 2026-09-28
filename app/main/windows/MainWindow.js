@@ -16,7 +16,7 @@ function createWindow(kernel, resolve) {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            webSecurity: false,
+            webSecurity: true,
             allowRunningInsecureContent: false
         }
     });

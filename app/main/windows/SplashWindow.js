@@ -16,7 +16,9 @@ async function createSplash() {
         icon: path.join(__dirname, "..", "..", "assets","icons", "AppLogo.ico"),
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            allowRunningInsecureContent: false,
+            webSecurity: true
         }
     });
 
